@@ -144,7 +144,7 @@ const getOrderById = async (req, res) => {
     }
     catch (error) {
         if (error instanceof client_1.Prisma.PrismaClientValidationError) {
-            res.status(404).json({ error: error.message });
+            res.status(400).json({ error: error.message });
             return;
         }
         res.status(500).json({ error: error.message });
