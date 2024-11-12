@@ -12,3 +12,53 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id      Int     @id @default(autoincrement())
+  name    String  @db.VarChar(255)
+  email   String  @db.VarChar(255)
+  address String  @db.VarChar(255)
+  phone   String? @db.VarChar(255)
+
+  Orders Order[]
+
+  @@map("user")
+}
+
+model Product {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  price       Decimal @db.Decimal(10, 2)
+  category    String  @db.VarChar(255)
+  description String? @db.VarChar(255)
+  imageUrl    String?
+
+  orderItem OrderItem[]
+
+  @@map("product")
+}
+
+model Order {
+  id         Int     @id @default(autoincrement())
+  userId     Int     @map("user_id")
+  user       User    @relation(fields: [userId], references: [id])
+  totalPrice Decimal @map("total_price") @db.Decimal(10, 2)
+  status     String  @db.VarChar(255)
+
+  orderItem OrderItem[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("order")
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  quantity  Int
+  orderId   Int     @map("order_id")
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId Int     @map("product_id")
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@map("order_item")
+}
