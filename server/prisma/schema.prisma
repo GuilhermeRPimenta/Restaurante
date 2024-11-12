@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum OrderStatus {
+  PENDENTE   @map("pendente")
+  EM_PREPARO @map("em_preparo")
+  ENTREGUE   @map("entregue")
+}
+
 model User {
   id      Int     @id @default(autoincrement())
   name    String  @db.VarChar(255)
@@ -39,11 +45,11 @@ model Product {
 }
 
 model Order {
-  id         Int     @id @default(autoincrement())
-  userId     Int     @map("user_id")
-  user       User    @relation(fields: [userId], references: [id])
-  totalPrice Decimal @map("total_price") @db.Decimal(10, 2)
-  status     String  @db.VarChar(255)
+  id         Int         @id @default(autoincrement())
+  userId     Int         @map("user_id")
+  user       User        @relation(fields: [userId], references: [id])
+  totalPrice Decimal     @map("total_price") @db.Decimal(10, 2)
+  status     OrderStatus
 
   orderItem OrderItem[]
 

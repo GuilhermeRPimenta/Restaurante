@@ -76,7 +76,7 @@ const createOrder = async (req, res) => {
                     const price = products.find((p) => p.id === product.productId).price;
                     return acc + Number(price) * product.quantity;
                 }, 0),
-                status: "Pendente",
+                status: "PENDENTE",
                 orderItem: {
                     createMany: {
                         data: req.body.products.map((product) => ({
