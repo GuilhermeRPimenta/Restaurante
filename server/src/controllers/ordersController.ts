@@ -85,7 +85,7 @@ const createOrder = async (req: Request, res: Response) => {
         },
       },
     });
-    res.status(200).send(order);
+    res.status(201).send(order);
     return;
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
