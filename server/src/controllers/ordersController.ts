@@ -130,4 +130,25 @@ const getOrderById = async (req: Request, res: Response) => {
   }
 };
 
-export { createOrder, getOrderById };
+const updateOrderStatus = async (req: Request, res: Response) => {
+  try {
+    const updatedOrder = await prisma.order.update({
+      where: {
+        id: parseInt(req.params.id),
+      },
+      data: {
+        status: req.body.status,
+      },
+    });
+    res.status(200).json(updatedOrder);
+    return;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientValidationError) {
+      res.status(422).json({ error: error.message });
+      return;
+    }
+    res.status(500).json({ error: error.message });
+    return;
+  }
+};
+export { createOrder, getOrderById, updateOrderStatus };

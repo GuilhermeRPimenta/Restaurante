@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOrderById = exports.createOrder = void 0;
+exports.updateOrderStatus = exports.getOrderById = exports.createOrder = void 0;
 const client_1 = require("@prisma/client");
 const prismaClient_1 = __importDefault(require("./prismaClient"));
 const createOrder = async (req, res) => {
@@ -134,3 +134,26 @@ const getOrderById = async (req, res) => {
     }
 };
 exports.getOrderById = getOrderById;
+const updateOrderStatus = async (req, res) => {
+    try {
+        const updatedOrder = await prismaClient_1.default.order.update({
+            where: {
+                id: parseInt(req.params.id),
+            },
+            data: {
+                status: req.body.status,
+            },
+        });
+        res.status(200).json(updatedOrder);
+        return;
+    }
+    catch (error) {
+        if (error instanceof client_1.Prisma.PrismaClientValidationError) {
+            res.status(422).json({ error: error.message });
+            return;
+        }
+        res.status(500).json({ error: error.message });
+        return;
+    }
+};
+exports.updateOrderStatus = updateOrderStatus;
