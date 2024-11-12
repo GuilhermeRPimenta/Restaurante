@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProduct = void 0;
+exports.getProducts = exports.createProduct = void 0;
 const client_1 = require("@prisma/client");
 const prismaClient_1 = __importDefault(require("./prismaClient"));
 const createProduct = async (req, res) => {
@@ -48,3 +48,15 @@ const createProduct = async (req, res) => {
     }
 };
 exports.createProduct = createProduct;
+const getProducts = async (req, res) => {
+    try {
+        const products = await prismaClient_1.default.product.findMany();
+        res.status(200).json(products);
+        return;
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+        return;
+    }
+};
+exports.getProducts = getProducts;

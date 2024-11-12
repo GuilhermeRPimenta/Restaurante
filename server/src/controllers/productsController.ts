@@ -44,4 +44,15 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-export { createProduct };
+const getProducts = async (req: Request, res: Response) => {
+  try {
+    const products = await prisma.product.findMany();
+    res.status(200).json(products);
+    return;
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    return;
+  }
+};
+
+export { createProduct, getProducts };
