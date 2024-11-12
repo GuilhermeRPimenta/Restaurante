@@ -36,6 +36,10 @@ const registerUser = async (req: Request, res: Response) => {
         return;
       }
     }
+    if (error instanceof Prisma.PrismaClientValidationError) {
+      res.status(400).json({ error: error.message });
+      return;
+    }
     res.status(500).json({ error: error.message });
     return;
   }
