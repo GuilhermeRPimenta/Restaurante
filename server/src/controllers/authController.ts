@@ -9,9 +9,9 @@ const registerUser = async (req: Request, res: Response) => {
       res.status(400).json({ error: "Invalid email" });
       return;
     }
+    let phoneNumbers = "";
     if (req.body.phone) {
       const phone: String = req.body.phone;
-      let phoneNumbers = "";
       for (let i = 0; i < phone.length; i++) {
         if (!Number.isNaN(Number(phone[i]))) phoneNumbers += phone[i];
       }
@@ -21,7 +21,12 @@ const registerUser = async (req: Request, res: Response) => {
       }
     }
     const user = await prisma.user.create({
-      data: req.body,
+      data: {
+        name: req.body.name,
+        email: req.body.email,
+        address: req.body.address,
+        phone: phoneNumbers,
+      },
     });
     res.status(201).json(user);
     return;
