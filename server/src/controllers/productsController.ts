@@ -128,4 +128,31 @@ const updateProduct = async (req: Request, res: Response) => {
   }
 };
 
-export { createProduct, getProducts, getProductById, updateProduct };
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    await prisma.product.delete({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    res.status(200).send();
+    return;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        res.status(404).json({ error: error.message });
+        return;
+      }
+    }
+    res.status(500).json({ error: error.message });
+    return;
+  }
+};
+
+export {
+  createProduct,
+  getProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
+};

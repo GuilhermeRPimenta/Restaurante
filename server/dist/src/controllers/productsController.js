@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProduct = exports.getProductById = exports.getProducts = exports.createProduct = void 0;
+exports.deleteProduct = exports.updateProduct = exports.getProductById = exports.getProducts = exports.createProduct = void 0;
 const client_1 = require("@prisma/client");
 const prismaClient_1 = __importDefault(require("./prismaClient"));
 const createProduct = async (req, res) => {
@@ -135,3 +135,25 @@ const updateProduct = async (req, res) => {
     }
 };
 exports.updateProduct = updateProduct;
+const deleteProduct = async (req, res) => {
+    try {
+        await prismaClient_1.default.product.delete({
+            where: {
+                id: parseInt(req.params.id),
+            },
+        });
+        res.status(200).send();
+        return;
+    }
+    catch (error) {
+        if (error instanceof client_1.Prisma.PrismaClientKnownRequestError) {
+            if (error.code === "P2025") {
+                res.status(404).json({ error: error.message });
+                return;
+            }
+        }
+        res.status(500).json({ error: error.message });
+        return;
+    }
+};
+exports.deleteProduct = deleteProduct;
