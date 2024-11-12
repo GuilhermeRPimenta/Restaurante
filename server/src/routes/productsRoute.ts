@@ -5,5 +5,6 @@ const router = Router();
 router.post("/", productsController.createProduct);
 router.get("/", productsController.getProducts);
 router.get("/:id", productsController.getProductById);
+router.put("/:id", productsController.updateProduct);
 
 export { router };
