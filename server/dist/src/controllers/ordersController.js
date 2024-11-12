@@ -8,6 +8,16 @@ const client_1 = require("@prisma/client");
 const prismaClient_1 = __importDefault(require("./prismaClient"));
 const createOrder = async (req, res) => {
     try {
+        if (!req.body.userId ||
+            !req.body.products ||
+            !Array.isArray(req.body.products)) {
+            res.status(400).json({ error: "Invalid object sent" });
+            return;
+        }
+        if (req.body.products.length === 0) {
+            res.status(400).json({ error: "Empty products array" });
+            return;
+        }
         const products = await prismaClient_1.default.product.findMany({
             where: {
                 id: {
@@ -82,8 +92,10 @@ const createOrder = async (req, res) => {
     }
     catch (error) {
         if (error instanceof client_1.Prisma.PrismaClientKnownRequestError) {
-            res.status(422).json({ error: error.message });
-            return;
+            if (error.code === "P2003") {
+                res.status(422).json({ error: error.message });
+                return;
+            }
         }
         res.status(500).json({ error: error.message });
         return;

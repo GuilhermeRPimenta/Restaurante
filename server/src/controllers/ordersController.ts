@@ -4,6 +4,18 @@ import e, { Response, Request } from "express";
 
 const createOrder = async (req: Request, res: Response) => {
   try {
+    if (
+      !req.body.userId ||
+      !req.body.products ||
+      !Array.isArray(req.body.products)
+    ) {
+      res.status(400).json({ error: "Invalid object sent" });
+      return;
+    }
+    if (req.body.products.length === 0) {
+      res.status(400).json({ error: "Empty products array" });
+      return;
+    }
     const products = await prisma.product.findMany({
       where: {
         id: {
@@ -77,8 +89,10 @@ const createOrder = async (req: Request, res: Response) => {
     return;
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      res.status(422).json({ error: error.message });
-      return;
+      if (error.code === "P2003") {
+        res.status(422).json({ error: error.message });
+        return;
+      }
     }
     res.status(500).json({ error: error.message });
     return;
