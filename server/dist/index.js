@@ -6,10 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const authRoute_1 = require("./src/routes/authRoute");
 const productsRoute_1 = require("./src/routes/productsRoute");
+const ordersRoute_1 = require("./src/routes/ordersRoute");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use("/api/auth", authRoute_1.router);
 app.use("/api/products", productsRoute_1.router);
+app.use("/api/orders", ordersRoute_1.router);
 app.listen(8000, () => {
     console.log("Server running on port 8000");
 });
