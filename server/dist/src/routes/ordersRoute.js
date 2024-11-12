@@ -29,3 +29,4 @@ const ordersController = __importStar(require("../controllers/ordersController")
 const router = (0, express_1.Router)();
 exports.router = router;
 router.get("/:id", ordersController.getOrderById);
+router.post("/", ordersController.createOrder);
