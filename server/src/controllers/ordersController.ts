@@ -109,7 +109,12 @@ const getOrderById = async (req: Request, res: Response) => {
         orderItem: {
           select: {
             quantity: true,
-            product: true,
+            product: {
+              select: {
+                name: true,
+                price: true,
+              },
+            },
           },
         },
       },
@@ -118,7 +123,20 @@ const getOrderById = async (req: Request, res: Response) => {
       res.status(404).json({ error: "Order not found" });
       return;
     }
-    res.status(200).json(order);
+    const formattedOrder = {
+      id: order.id,
+      totalPrice: order.totalPrice,
+      status: order.status,
+      createdAt: order.createdAt,
+      products: order.orderItem.map((o) => {
+        return {
+          name: o.product.name,
+          quantity: o.quantity,
+          price: o.product.price,
+        };
+      }),
+    };
+    res.status(200).json(formattedOrder);
     return;
   } catch (error) {
     if (error instanceof Prisma.PrismaClientValidationError) {
