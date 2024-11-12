@@ -30,3 +30,4 @@ const router = (0, express_1.Router)();
 exports.router = router;
 router.post("/", productsController.createProduct);
 router.get("/", productsController.getProducts);
+router.get("/:id", productsController.getProductById);

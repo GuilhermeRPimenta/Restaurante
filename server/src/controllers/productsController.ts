@@ -55,4 +55,27 @@ const getProducts = async (req: Request, res: Response) => {
   }
 };
 
-export { createProduct, getProducts };
+const getProductById = async (req: Request, res: Response) => {
+  try {
+    const product = await prisma.product.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+      return;
+    }
+    res.status(200).json(product);
+    return;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientValidationError) {
+      res.status(404).json({ error: error.message });
+      return;
+    }
+    res.status(500).json({ error: error.message });
+    return;
+  }
+};
+
+export { createProduct, getProducts, getProductById };

@@ -4,5 +4,6 @@ import * as productsController from "../controllers/productsController";
 const router = Router();
 router.post("/", productsController.createProduct);
 router.get("/", productsController.getProducts);
+router.get("/:id", productsController.getProductById);
 
 export { router };

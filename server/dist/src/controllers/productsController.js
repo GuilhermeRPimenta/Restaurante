@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProducts = exports.createProduct = void 0;
+exports.getProductById = exports.getProducts = exports.createProduct = void 0;
 const client_1 = require("@prisma/client");
 const prismaClient_1 = __importDefault(require("./prismaClient"));
 const createProduct = async (req, res) => {
@@ -60,3 +60,27 @@ const getProducts = async (req, res) => {
     }
 };
 exports.getProducts = getProducts;
+const getProductById = async (req, res) => {
+    try {
+        const product = await prismaClient_1.default.product.findUnique({
+            where: {
+                id: parseInt(req.params.id),
+            },
+        });
+        if (!product) {
+            res.status(404).json({ error: "Product not found" });
+            return;
+        }
+        res.status(200).json(product);
+        return;
+    }
+    catch (error) {
+        if (error instanceof client_1.Prisma.PrismaClientValidationError) {
+            res.status(404).json({ error: error.message });
+            return;
+        }
+        res.status(500).json({ error: error.message });
+        return;
+    }
+};
+exports.getProductById = getProductById;
