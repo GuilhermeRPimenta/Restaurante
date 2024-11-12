@@ -4,12 +4,8 @@ import { Response, Request } from "express";
 
 const registerUser = async (req: Request, res: Response) => {
   try {
-    const emailParts: string[] = req.body.email.split("@");
-    if (emailParts.length !== 2) {
-      res.status(400).json({ error: "Invalid email" });
-      return;
-    }
-    if (!emailParts[1].includes(".")) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(req.body.email)) {
       res.status(400).json({ error: "Invalid email" });
       return;
     }
