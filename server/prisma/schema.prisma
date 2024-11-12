@@ -17,6 +17,7 @@ enum OrderStatus {
   PENDENTE   @map("pendente")
   EM_PREPARO @map("em_preparo")
   ENTREGUE   @map("entregue")
+  CANCELADO  @map("cancelado")
 }
 
 model User {
