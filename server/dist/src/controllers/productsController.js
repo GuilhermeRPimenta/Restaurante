@@ -49,8 +49,22 @@ const createProduct = async (req, res) => {
 };
 exports.createProduct = createProduct;
 const getProducts = async (req, res) => {
+    const { category, orderBy, orderDirection, maxPrice, minPrice } = req.query;
+    const minPriceNum = minPrice && !isNaN(Number(minPrice)) ? Number(minPrice) : undefined;
+    const maxPriceNum = maxPrice && !isNaN(Number(maxPrice)) ? Number(maxPrice) : undefined;
     try {
-        const products = await prismaClient_1.default.product.findMany();
+        const products = await prismaClient_1.default.product.findMany({
+            where: {
+                category: category ? String(category) : undefined,
+                price: {
+                    ...(minPriceNum ? { gte: minPriceNum } : {}),
+                    ...(maxPriceNum ? { lte: maxPriceNum } : {}),
+                },
+            },
+            orderBy: {
+                [orderBy ? String(orderBy) : "category"]: orderDirection === "desc" ? "desc" : "asc",
+            },
+        });
         res.status(200).json(products);
         return;
     }
