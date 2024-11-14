@@ -37,7 +37,6 @@ const createOrder = async (req: Request, res: Response) => {
       });
       return;
     }
-    const unavailableProductsIds: number[] = [];
     const processedProductsIds: number[] = [];
     const repeatedProductsIds: number[] = [];
     req.body.products.forEach((product) => {
@@ -46,11 +45,8 @@ const createOrder = async (req: Request, res: Response) => {
       } else {
         processedProductsIds.push(product.productId);
       }
-
-      if (product.quantity === 0) {
-        unavailableProductsIds.push(product.productId);
-      }
     });
+
     if (repeatedProductsIds.length > 0) {
       res.status(400).json({
         error: `Products sent more than once: [${repeatedProductsIds
@@ -59,14 +55,7 @@ const createOrder = async (req: Request, res: Response) => {
       });
       return;
     }
-    if (unavailableProductsIds.length > 0) {
-      res.status(400).json({
-        error: `Unavailable products: [${unavailableProductsIds
-          .map((id) => id)
-          .join(", ")}]`,
-      });
-      return;
-    }
+
     const order = await prisma.order.create({
       data: {
         userId: req.body.userId,
