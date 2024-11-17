@@ -16,6 +16,7 @@ export default {
       },
       fontFamily: {
         pacifico: ["Pacifico", "cursive"],
+        quicksand: ["Quicksand", "sans-serif"],
       },
     },
   },
