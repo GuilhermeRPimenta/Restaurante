@@ -1,10 +1,39 @@
+import { useState } from "react";
 import logoOrange from "../../assets/logo-orange.png";
+import Nav from "./Nav";
+import NavLinks from "./NavLinks";
 
 const Header = () => {
+  const [mobileNavIsOpen, setMobileNavIsOpen] = useState(false);
+  const handleMobileNavIsOpenChange = () => {
+    setMobileNavIsOpen(!mobileNavIsOpen);
+  };
+  const handleNavLinkClick = () => {
+    setMobileNavIsOpen(false);
+  };
   return (
-    <header className=" bg-gray-100 shadow-md flex items-center p-1 justify-center">
-      <img src={logoOrange} alt="" className="w-12" />
-      <h1 className="font-pacifico text-3xl text-primary">Bom Prato</h1>
+    <header className="bg-gray-100 sticky top-0 z-[10]">
+      <div className="p-1 justify-between shadow-md flex items-center  ">
+        <div className="flex items-center mb-auto">
+          <img src={logoOrange} alt="" className="w-12" />
+          <h1 className="font-pacifico  text-3xl text-primary">Bom Prato</h1>
+        </div>
+
+        <div className="flex items-center justify-center">
+          <Nav
+            mobileNavIsOpen={mobileNavIsOpen}
+            handleMobileNavIsOpenChange={handleMobileNavIsOpenChange}
+          />
+        </div>
+      </div>
+      {mobileNavIsOpen && (
+        <div className="sm:hidden bg-gray-100 shadow-md">
+          <NavLinks
+            className="text-xl"
+            handleNavLinkClick={handleNavLinkClick}
+          />
+        </div>
+      )}
     </header>
   );
 };
