@@ -39,7 +39,6 @@ const createOrder = async (req, res) => {
             });
             return;
         }
-        const unavailableProductsIds = [];
         const processedProductsIds = [];
         const repeatedProductsIds = [];
         req.body.products.forEach((product) => {
@@ -49,21 +48,10 @@ const createOrder = async (req, res) => {
             else {
                 processedProductsIds.push(product.productId);
             }
-            if (product.quantity === 0) {
-                unavailableProductsIds.push(product.productId);
-            }
         });
         if (repeatedProductsIds.length > 0) {
             res.status(400).json({
                 error: `Products sent more than once: [${repeatedProductsIds
-                    .map((id) => id)
-                    .join(", ")}]`,
-            });
-            return;
-        }
-        if (unavailableProductsIds.length > 0) {
-            res.status(400).json({
-                error: `Unavailable products: [${unavailableProductsIds
                     .map((id) => id)
                     .join(", ")}]`,
             });
