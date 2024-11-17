@@ -1,8 +1,14 @@
 import express from "express";
+import cors from "cors";
 import { router as authRouter } from "./src/routes/authRoute";
 import { router as productsRouter } from "./src/routes/productsRoute";
 import { router as ordersRoute } from "./src/routes/ordersRoute";
 const app = express();
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/products", productsRouter);
