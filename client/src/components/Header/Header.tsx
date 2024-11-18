@@ -2,6 +2,7 @@ import { useState } from "react";
 import logoOrange from "../../assets/logo-orange.png";
 import Nav from "./Nav";
 import NavLinks from "./NavLinks";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const [mobileNavIsOpen, setMobileNavIsOpen] = useState(false);
@@ -14,10 +15,14 @@ const Header = () => {
   return (
     <header className="bg-gray-100 sticky top-0 z-[10]">
       <div className="p-1 justify-between shadow-md flex items-center  ">
-        <div className="flex items-center mb-auto">
+        <NavLink
+          to={"/"}
+          onClick={handleMobileNavIsOpenChange}
+          className="flex items-center mb-auto"
+        >
           <img src={logoOrange} alt="" className="w-12" />
           <h1 className="font-pacifico  text-3xl text-primary">Bom Prato</h1>
-        </div>
+        </NavLink>
 
         <div className="flex items-center justify-center">
           <Nav
