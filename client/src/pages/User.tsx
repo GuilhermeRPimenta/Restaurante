@@ -64,7 +64,7 @@ const User = () => {
       <h3 className="text-xl font-bold mb-10">Cadastro de usuário</h3>
       {pageState === "FORM" && (
         <form
-          className="flex flex-col gap-2 items-center p-2 bg-gray-100 rounded-xl"
+          className="flex flex-col gap-2 items-center p-2 bg-gray-100 rounded-xl sm:w-96"
           onSubmit={createUser}
         >
           <div className="flex flex-col w-full">
