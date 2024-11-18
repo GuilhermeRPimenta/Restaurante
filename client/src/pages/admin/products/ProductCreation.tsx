@@ -1,10 +1,12 @@
 import { useState } from "react";
-import LoadingIcon from "../components/Global/LoadingIcon";
+import LoadingIcon from "../../../components/Global/LoadingIcon";
 import { FaRegCheckCircle } from "react-icons/fa";
-import Button from "../components/Global/Button";
+import Button from "../../../components/Global/Button";
 import { VscError } from "react-icons/vsc";
+import { useNavigate } from "react-router-dom";
 
-const Admin = () => {
+const ProductCreation = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<{
     name: string;
     category: string;
@@ -37,7 +39,6 @@ const Admin = () => {
         e.target.id === "price" ? Number(e.target.value) : e.target.value,
     }));
   };
-  console.log(formData);
   const createProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -50,7 +51,6 @@ const Admin = () => {
         body: JSON.stringify(formData),
       });
       const responseJson = await response.json();
-      console.log(responseJson);
       if (!response.ok) {
         if (responseJson.errorCode === 1) setPageState("ERROR");
         else setPageState("FORM");
@@ -74,6 +74,9 @@ const Admin = () => {
       description: "",
       imageUrl: "",
     });
+  };
+  const returnToProductsPage = () => {
+    navigate("/admin/products");
   };
   return (
     <div className="text-center">
@@ -219,8 +222,13 @@ const Admin = () => {
           </div>
         </div>
       )}
+      <div className="flex justify-center">
+        <Button onClick={returnToProductsPage} className="mt-5">
+          Voltar à tela de produtos
+        </Button>
+      </div>
     </div>
   );
 };
 
-export default Admin;
+export default ProductCreation;
