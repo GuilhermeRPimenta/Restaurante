@@ -14,7 +14,7 @@ const Header = () => {
   };
   return (
     <header className="bg-gray-100 sticky top-0 z-[10]">
-      <div className="p-1 justify-between shadow-md flex items-center  ">
+      <div className="p-1 sm:px-6 justify-between shadow-lg flex items-center  ">
         <NavLink
           to={"/"}
           onClick={handleMobileNavIsOpenChange}

@@ -79,12 +79,12 @@ const ProductCreation = () => {
     navigate("/admin/products");
   };
   return (
-    <div className="text-center">
+    <div className="flex flex-col h-full text-center w-full justify-center px-4">
       <h2 className="text-2xl font-bold">Admin</h2>
       <h3 className="text-xl font-bold mb-10">Cadastro de produto</h3>
       {pageState === "FORM" && (
         <form
-          className="flex flex-col gap-2 items-center p-2 bg-gray-100 rounded-xl sm:w-96"
+          className="flex flex-col gap-2 items-center p-2 bg-secondary rounded-xl max-w-4xl w-full mx-auto"
           onSubmit={createProduct}
         >
           <div className="flex flex-col w-full">
