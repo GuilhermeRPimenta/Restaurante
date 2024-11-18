@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import Button from "../components/Global/Button";
+import LoadingIcon from "../components/Global/LoadingIcon";
+import { VscError } from "react-icons/vsc";
+import { FaRegCheckCircle } from "react-icons/fa";
 
 const User = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +11,11 @@ const User = () => {
     address: "",
     phone: "",
   });
+  const [pageState, setPageState] = useState<
+    "FORM" | "LOADING" | "ERROR" | "USER_CREATED"
+  >("FORM");
+  const [createdUserId, setCreatedUserId] = useState<number>();
+  const [responseError, setResponseError] = useState<number>();
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
@@ -17,6 +25,7 @@ const User = () => {
   const createUser = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      setPageState("LOADING");
       const response = await fetch("http://localhost:8000/api/auth/register", {
         method: "POST",
         headers: {
@@ -24,60 +33,128 @@ const User = () => {
         },
         body: JSON.stringify(formData),
       });
+      const responseJson = await response.json();
       if (!response.ok) {
-        console.log(response);
+        if (responseJson.errorCode === 1) setPageState("ERROR");
+        else setPageState("FORM");
+        setResponseError(responseJson.errorCode);
+      } else {
+        setCreatedUserId(responseJson.id);
+        setPageState("USER_CREATED");
       }
     } catch (e) {
-      console.log(e);
+      setPageState("ERROR");
     }
   };
+  const resetPage = () => {
+    setCreatedUserId(undefined);
+    setPageState("FORM");
+    setResponseError(undefined);
+    setFormData({
+      name: "",
+      email: "",
+      address: "",
+      phone: "",
+    });
+  };
+  console.log(responseError);
   return (
     <div className="text-center">
       <h2 className="text-2xl font-bold">Usuário</h2>
-      <h3 className="text-xl font-bold">Cadastro de usuário</h3>
-      <form
-        className="flex flex-col gap-2 items-center p-2 bg-gray-100 rounded-xl"
-        onSubmit={createUser}
-      >
-        <div className="flex flex-col">
-          <label htmlFor="name">Nome</label>
-          <input
-            className="rounded-xl px-2"
-            type="text"
-            id="name"
-            onChange={handleFormChange}
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="email">E-mail</label>
-          <input
-            className="rounded-xl px-2"
-            type="text"
-            id="email"
-            onChange={handleFormChange}
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="address">Endereço</label>
-          <input
-            className="rounded-xl px-2"
-            type="text"
-            id="address"
-            onChange={handleFormChange}
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="phone">Telefone</label>
-          <input
-            className="rounded-xl px-2"
-            type="text"
-            id="phone"
-            onChange={handleFormChange}
-          />
-        </div>
+      <h3 className="text-xl font-bold mb-10">Cadastro de usuário</h3>
+      {pageState === "FORM" && (
+        <form
+          className="flex flex-col gap-2 items-center p-2 bg-gray-100 rounded-xl"
+          onSubmit={createUser}
+        >
+          <div className="flex flex-col w-full">
+            <label htmlFor="name">Nome</label>
+            <input
+              className={`rounded-xl px-2 ${
+                responseError === 2 && "outline-red-500 outline outline-2"
+              }`}
+              type="text"
+              id="name"
+              value={formData.name}
+              onChange={handleFormChange}
+            />
+            {responseError === 2 && (
+              <p className="text-red-500">Este campo não pode ser vazio!</p>
+            )}
+          </div>
+          <div className="flex flex-col w-full">
+            <label htmlFor="email">E-mail</label>
+            <input
+              className={`rounded-xl px-2 ${
+                (responseError === 3 || responseError === 6) &&
+                "outline outline-red-500 outline-2"
+              }`}
+              type="text"
+              id="email"
+              value={formData.email}
+              onChange={handleFormChange}
+            />
+            {responseError === 3 && (
+              <p className="text-red-500">Insira um e-mail válido!</p>
+            )}
+            {responseError === 6 && (
+              <p className="text-red-500">Este e-mail já está cadastrado!!</p>
+            )}
+          </div>
+          <div className="flex flex-col w-full">
+            <label htmlFor="address">Endereço</label>
+            <input
+              className={`rounded-xl px-2 ${
+                responseError === 4 && "outline-red-500 outline outline-2"
+              }`}
+              type="text"
+              id="address"
+              value={formData.address}
+              onChange={handleFormChange}
+            />
+            {responseError === 4 && (
+              <p className="text-red-500">Este campo não pode ser vazio!</p>
+            )}
+          </div>
+          <div className="flex flex-col w-full">
+            <label htmlFor="phone">{"Telefone com DDD (opcional)"}</label>
+            <input
+              className={`rounded-xl px-2 ${
+                responseError === 5 && "outline-red-500 outline outline-2"
+              }`}
+              type="text"
+              id="phone"
+              value={formData.phone}
+              onChange={handleFormChange}
+            />
+            {responseError === 5 && (
+              <p className="text-red-500">Insira um telefone válido!</p>
+            )}
+          </div>
 
-        <Button>Enviar</Button>
-      </form>
+          <Button>Enviar</Button>
+        </form>
+      )}
+      {pageState === "LOADING" && <LoadingIcon className="text-7xl w-full" />}
+      {pageState === "USER_CREATED" && (
+        <div className="flex flex-col justify-center">
+          <FaRegCheckCircle className="text-7xl w-full text-green-500" />
+          <p>Usuário criado!</p>
+          <p>{`Seu id de usuário: ${createdUserId}`}</p>
+          <div className="flex justify-center">
+            <Button onClick={resetPage}>Voltar</Button>
+          </div>
+        </div>
+      )}
+      {pageState === "ERROR" && (
+        <div className="flex flex-col text-center justify-center">
+          <VscError className="text-7xl w-full text-red-500" />
+          Algo deu errado!
+          <div className="flex justify-center">
+            <Button onClick={resetPage}>Voltar</Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

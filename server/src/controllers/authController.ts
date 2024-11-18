@@ -4,19 +4,28 @@ import { Response, Request } from "express";
 
 const registerUser = async (req: Request, res: Response) => {
   try {
+    if (req.body.name.length === 0) {
+      res.status(400).json({ errorCode: 2, error: "'name' field is empty" });
+      return;
+    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(req.body.email)) {
-      res.status(400).json({ error: "Invalid email" });
+      res.status(400).json({ errorCode: 3, error: "Invalid email" });
+      return;
+    }
+    if (req.body.address.length === 0) {
+      res.status(400).json({ errorCode: 4, error: "'address' field is empty" });
       return;
     }
     let phoneNumbers = "";
     if (req.body.phone) {
       const phone: String = req.body.phone;
       for (let i = 0; i < phone.length; i++) {
-        if (!Number.isNaN(Number(phone[i]))) phoneNumbers += phone[i];
+        if (!Number.isNaN(parseInt(phone[i])))
+          phoneNumbers += parseInt(phone[i]);
       }
       if (phoneNumbers.length !== 10 && phoneNumbers.length !== 11) {
-        res.status(400).json({ error: "Invalid phone" });
+        res.status(400).json({ errorCode: 5, error: "Invalid phone" });
         return;
       }
     }
@@ -33,15 +42,13 @@ const registerUser = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
-        res.status(409).json({ error: error.message });
+        res
+          .status(409)
+          .json({ errorCode: 6, error: "Email already registered" });
         return;
       }
     }
-    if (error instanceof Prisma.PrismaClientValidationError) {
-      res.status(400).json({ error: error.message });
-      return;
-    }
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ errorCode: 1, error: error.message });
     return;
   }
 };

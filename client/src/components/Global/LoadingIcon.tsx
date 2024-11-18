@@ -1,9 +1,9 @@
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const LoadingIcon = () => {
+const LoadingIcon = ({ className }: { className?: string }) => {
   return (
     <div>
-      <AiOutlineLoading3Quarters className="animate-spin" />
+      <AiOutlineLoading3Quarters className={`${className} animate-spin`} />
     </div>
   );
 };
