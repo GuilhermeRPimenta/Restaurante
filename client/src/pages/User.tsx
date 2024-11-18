@@ -57,7 +57,6 @@ const User = () => {
       phone: "",
     });
   };
-  console.log(responseError);
   return (
     <div className="text-center">
       <h2 className="text-2xl font-bold">Usuário</h2>
@@ -98,7 +97,7 @@ const User = () => {
               <p className="text-red-500">Insira um e-mail válido!</p>
             )}
             {responseError === 6 && (
-              <p className="text-red-500">Este e-mail já está cadastrado!!</p>
+              <p className="text-red-500">Este e-mail já está cadastrado!</p>
             )}
           </div>
           <div className="flex flex-col w-full">
@@ -138,20 +137,24 @@ const User = () => {
       {pageState === "LOADING" && <LoadingIcon className="text-7xl w-full" />}
       {pageState === "USER_CREATED" && (
         <div className="flex flex-col justify-center">
-          <FaRegCheckCircle className="text-7xl w-full text-green-500" />
+          <FaRegCheckCircle className="text-7xl w-full text-green-500 mb-5" />
           <p>Usuário criado!</p>
           <p>{`Seu id de usuário: ${createdUserId}`}</p>
           <div className="flex justify-center">
-            <Button onClick={resetPage}>Voltar</Button>
+            <Button className="mt-5" onClick={resetPage}>
+              Voltar
+            </Button>
           </div>
         </div>
       )}
       {pageState === "ERROR" && (
         <div className="flex flex-col text-center justify-center">
-          <VscError className="text-7xl w-full text-red-500" />
+          <VscError className="text-7xl w-full text-red-500 mb-5" />
           Algo deu errado!
           <div className="flex justify-center">
-            <Button onClick={resetPage}>Voltar</Button>
+            <Button className="mt-5" onClick={resetPage}>
+              Voltar
+            </Button>
           </div>
         </div>
       )}

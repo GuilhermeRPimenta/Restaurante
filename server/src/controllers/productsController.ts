@@ -4,27 +4,56 @@ import { Response, Request } from "express";
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    if (typeof req.body.price !== "number") {
-      res.status(422).json({ error: "Price is not a number" });
+    if (!req.body.name || req.body.name.length === 0) {
+      res
+        .status(400)
+        .json({ errorCode: 2, error: "'name' field is empty or non existent" });
+      return;
+    }
+    if (!req.body.category || req.body.category.length === 0) {
+      res.status(400).json({
+        errorCode: 3,
+        error: "'category' field is empty or non existent",
+      });
+      return;
+    }
+    if (!req.body.description || req.body.description.length === 0) {
+      res.status(400).json({
+        errorCode: 4,
+        error: "'description' field is empty or non existent",
+      });
+      return;
+    }
+    if (!req.body.price || typeof req.body.price !== "number") {
+      res
+        .status(422)
+        .json({ errorCode: 5, error: "Price is non existent or not a number" });
       return;
     }
     if (req.body.price < 0) {
-      res.status(422).json({ error: "Negative price" });
+      res.status(400).json({ errorCode: 6, error: "Negative price" });
       return;
     }
     if (req.body.imageUrl) {
-      const imageUrlResponse = await fetch(req.body.imageUrl, {
-        method: "HEAD",
-      });
-      if (!imageUrlResponse.ok) {
-        res.status(422).json({ error: "Invalid URL" });
-        return;
-      }
-      const urlContentType = imageUrlResponse.headers
-        .get("Content-Type")
-        ?.includes("image");
-      if (!urlContentType) {
-        res.status(422).json({ error: "URL does not contains an image" });
+      try {
+        const imageUrlResponse = await fetch(req.body.imageUrl, {
+          method: "HEAD",
+        });
+        if (!imageUrlResponse.ok) {
+          res.status(422).json({ errorCode: 7, error: "Invalid URL" });
+          return;
+        }
+        const urlContentType = imageUrlResponse.headers
+          .get("Content-Type")
+          ?.includes("image");
+        if (!urlContentType) {
+          res
+            .status(422)
+            .json({ errorCode: 8, error: "URL does not contains an image" });
+          return;
+        }
+      } catch (e) {
+        res.status(422).json({ errorCode: 9, error: "Invalid URL" });
         return;
       }
     }
@@ -32,14 +61,11 @@ const createProduct = async (req: Request, res: Response) => {
     const product = await prisma.product.create({
       data: req.body,
     });
-    res.status(201).json(product);
+    res.status(201).json({ ...product, price: product.price.toFixed(2) });
     return;
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientValidationError) {
-      res.status(400).json({ error: error.message });
-      return;
-    }
-    res.status(500).json({ error: error.message });
+    console.log(error);
+    res.status(500).json({ errorCode: 1, error: error.message });
     return;
   }
 };
