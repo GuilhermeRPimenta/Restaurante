@@ -17,21 +17,14 @@ const createProduct = async (req: Request, res: Response) => {
       });
       return;
     }
-    if (!req.body.description || req.body.description.length === 0) {
-      res.status(400).json({
-        errorCode: 4,
-        error: "'description' field is empty or non existent",
-      });
-      return;
-    }
     if (!req.body.price || typeof req.body.price !== "number") {
       res
         .status(422)
-        .json({ errorCode: 5, error: "Price is non existent or not a number" });
+        .json({ errorCode: 4, error: "Price is non existent or not a number" });
       return;
     }
     if (req.body.price < 0) {
-      res.status(400).json({ errorCode: 6, error: "Negative price" });
+      res.status(400).json({ errorCode: 5, error: "Negative price" });
       return;
     }
     if (req.body.imageUrl) {
@@ -40,7 +33,7 @@ const createProduct = async (req: Request, res: Response) => {
           method: "HEAD",
         });
         if (!imageUrlResponse.ok) {
-          res.status(422).json({ errorCode: 7, error: "Invalid URL" });
+          res.status(422).json({ errorCode: 6, error: "Invalid URL" });
           return;
         }
         const urlContentType = imageUrlResponse.headers
@@ -49,11 +42,11 @@ const createProduct = async (req: Request, res: Response) => {
         if (!urlContentType) {
           res
             .status(422)
-            .json({ errorCode: 8, error: "URL does not contains an image" });
+            .json({ errorCode: 7, error: "URL does not contains an image" });
           return;
         }
       } catch (e) {
-        res.status(422).json({ errorCode: 9, error: "Invalid URL" });
+        res.status(422).json({ errorCode: 8, error: "Invalid URL" });
         return;
       }
     }

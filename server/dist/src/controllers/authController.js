@@ -8,8 +8,10 @@ const client_1 = require("@prisma/client");
 const prismaClient_1 = __importDefault(require("./prismaClient"));
 const registerUser = async (req, res) => {
     try {
-        if (req.body.name.length === 0) {
-            res.status(400).json({ errorCode: 2, error: "'name' field is empty" });
+        if (!req.body.name || req.body.name.length === 0) {
+            res
+                .status(400)
+                .json({ errorCode: 2, error: "'name' field is empty or non existent" });
             return;
         }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -17,8 +19,13 @@ const registerUser = async (req, res) => {
             res.status(400).json({ errorCode: 3, error: "Invalid email" });
             return;
         }
-        if (req.body.address.length === 0) {
-            res.status(400).json({ errorCode: 4, error: "'address' field is empty" });
+        if (!req.body.address || req.body.address.length === 0) {
+            res
+                .status(400)
+                .json({
+                errorCode: 4,
+                error: "'address' field is empty or non existent",
+            });
             return;
         }
         let phoneNumbers = "";

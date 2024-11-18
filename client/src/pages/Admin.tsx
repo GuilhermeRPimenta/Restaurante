@@ -115,44 +115,40 @@ const Admin = () => {
             )}
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="description">Descrição</label>
+            <label htmlFor="description">Descrição (opcional)</label>
             <input
-              className={`rounded-xl px-2 ${
-                responseError === 4 && "outline-red-500 outline outline-2"
-              }`}
+              className={`rounded-xl px-2`}
               type="text"
               id="description"
               value={formData.description}
               onChange={handleFormChange}
             />
-            {responseError === 4 && (
-              <p className="text-red-500">Este campo não pode ser vazio!</p>
-            )}
           </div>
           <div className="flex flex-col w-full">
             <label htmlFor="price">Preço</label>
             <input
               className={`rounded-xl px-2 ${
-                (responseError === 5 || responseError === 6) &&
+                (responseError === 4 || responseError === 5) &&
                 "outline-red-500 outline outline-2"
               }`}
               type="number"
               id="price"
+              step={0.01}
               value={formData.price}
               onChange={handleFormChange}
             />
-            {responseError === 5 && (
+            {responseError === 4 && (
               <p className="text-red-500">Este campo não pode ser vazio!</p>
             )}
-            {responseError === 6 && (
+            {responseError === 5 && (
               <p className="text-red-500">Preço não pode ser negativo!</p>
             )}
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="imageUrl">URL de imagem</label>
+            <label htmlFor="imageUrl">URL de imagem (opcional)</label>
             <input
               className={`rounded-xl px-2 ${
-                (responseError === 7 || responseError === 8) &&
+                (responseError === 6 || responseError === 7) &&
                 "outline-red-500 outline outline-2"
               }`}
               type="text"
@@ -160,13 +156,13 @@ const Admin = () => {
               value={formData.imageUrl}
               onChange={handleFormChange}
             />
-            {responseError === 7 && (
+            {responseError === 6 && (
               <p className="text-red-500">URL inválida!</p>
             )}
-            {responseError === 8 && (
+            {responseError === 7 && (
               <p className="text-red-500">Esta não é uma URL de uma imagem!</p>
             )}
-            {responseError === 9 && (
+            {responseError === 8 && (
               <p className="text-red-500">Insira uma URL!</p>
             )}
           </div>
