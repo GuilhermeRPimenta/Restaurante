@@ -80,15 +80,16 @@ const ProductCreation = () => {
   };
   return (
     <div className="flex flex-col h-full text-center w-full justify-center px-4">
-      <h2 className="text-2xl font-bold">Admin</h2>
-      <h3 className="text-xl font-bold mb-10">Cadastro de produto</h3>
+      <h2 className="text-4xl font-bold mb-10">Cadastro de produto</h2>
       {pageState === "FORM" && (
         <form
           className="flex flex-col gap-2 items-center p-2 bg-secondary rounded-xl max-w-4xl w-full mx-auto"
           onSubmit={createProduct}
         >
           <div className="flex flex-col w-full">
-            <label htmlFor="name">Nome</label>
+            <label className="text-md font-bold" htmlFor="name">
+              Nome
+            </label>
             <input
               className={`rounded-xl px-2 ${
                 responseError === 2 && "outline-red-500 outline outline-2"
@@ -103,7 +104,9 @@ const ProductCreation = () => {
             )}
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="category">Categoria</label>
+            <label className="text-md font-bold" htmlFor="category">
+              Categoria
+            </label>
             <input
               className={`rounded-xl px-2 ${
                 responseError === 3 && "outline outline-red-500 outline-2"
@@ -118,7 +121,9 @@ const ProductCreation = () => {
             )}
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="description">Descrição (opcional)</label>
+            <label className="text-md font-bold" htmlFor="description">
+              Descrição (opcional)
+            </label>
             <input
               className={`rounded-xl px-2`}
               type="text"
@@ -128,7 +133,9 @@ const ProductCreation = () => {
             />
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="price">Preço</label>
+            <label className="text-md font-bold" htmlFor="price">
+              Preço
+            </label>
             <input
               className={`rounded-xl px-2 ${
                 (responseError === 4 || responseError === 5) &&
@@ -148,7 +155,9 @@ const ProductCreation = () => {
             )}
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="imageUrl">URL de imagem (opcional)</label>
+            <label className="text-md font-bold" htmlFor="imageUrl">
+              URL de imagem (opcional)
+            </label>
             <input
               className={`rounded-xl px-2 ${
                 (responseError === 6 || responseError === 7) &&

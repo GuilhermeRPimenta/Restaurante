@@ -5,7 +5,7 @@ import ButtonLink from "../../Global/ButtonLink";
 const AdminProductCard = ({ product }: { product: Product }) => {
   return (
     <div className="flex flex-col gap-2 items-center p-2 bg-secondary rounded-xl max-w-md w-full mx-auto hover:shadow-md">
-      <h3 className="text-2xl font-bold">{product.name}</h3>
+      <h4 className="text-2xl font-bold">{product.name}</h4>
       <img
         src={product.imageUrl || brokenImage}
         alt={`Imagem de ${product.name}`}

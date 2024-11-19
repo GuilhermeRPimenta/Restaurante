@@ -26,8 +26,8 @@ const ProductsHome = () => {
   }, []);
   return (
     <div className="text-center items-center px-2">
-      <h2 className="text-4xl font-bold">Produtos</h2>
-      <div className="flex w-full mt-6  justify-center gap-2">
+      <h2 className="text-4xl font-bold mb-10">Produtos</h2>
+      <div className="flex w-full justify-center gap-2">
         <ButtonLink to={"/admin/products/productCreation"}>
           Criar produto
         </ButtonLink>
@@ -35,7 +35,7 @@ const ProductsHome = () => {
       {productsByCategory &&
         Object.keys(productsByCategory).map((category) => {
           return (
-            <div className="pt-6" key={category}>
+            <div className="mt-8" key={category}>
               <h3 className="text-3xl font-bold py-2">{category}</h3>
               <div className="grid md:grid-cols-2 gap-3 max-w-3xl">
                 {productsByCategory[category]?.map((product) => (

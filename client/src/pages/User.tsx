@@ -59,15 +59,16 @@ const User = () => {
   };
   return (
     <div className="flex flex-col h-full text-center w-full justify-center px-4">
-      <h2 className="text-2xl font-bold">Usuário</h2>
-      <h3 className="text-xl font-bold mb-10">Cadastro de usuário</h3>
+      <h2 className="text-4xl font-bold mb-10">Cadastro de usuário</h2>
       {pageState === "FORM" && (
         <form
           className="flex flex-col gap-2 items-center p-2 bg-secondary rounded-xl max-w-4xl w-full mx-auto"
           onSubmit={createUser}
         >
           <div className="flex flex-col w-full">
-            <label htmlFor="name">Nome</label>
+            <label className="text-md font-bold" htmlFor="name">
+              Nome
+            </label>
             <input
               className={`rounded-xl px-2 ${
                 responseError === 2 && "outline-red-500 outline outline-2"
@@ -82,7 +83,9 @@ const User = () => {
             )}
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="email">E-mail</label>
+            <label className="text-md font-bold" htmlFor="email">
+              E-mail
+            </label>
             <input
               className={`rounded-xl px-2 ${
                 (responseError === 3 || responseError === 6) &&
@@ -101,7 +104,9 @@ const User = () => {
             )}
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="address">Endereço</label>
+            <label className="text-md font-bold" htmlFor="address">
+              Endereço
+            </label>
             <input
               className={`rounded-xl px-2 ${
                 responseError === 4 && "outline-red-500 outline outline-2"
@@ -116,7 +121,9 @@ const User = () => {
             )}
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="phone">{"Telefone com DDD (opcional)"}</label>
+            <label className="text-md font-bold" htmlFor="phone">
+              {"Telefone com DDD (opcional)"}
+            </label>
             <input
               className={`rounded-xl px-2 ${
                 responseError === 5 && "outline-red-500 outline outline-2"
