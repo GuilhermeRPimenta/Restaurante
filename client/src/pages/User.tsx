@@ -157,7 +157,7 @@ const User = () => {
       {pageState === "ERROR" && (
         <div className="flex flex-col text-center justify-center">
           <VscError className="text-7xl w-full text-red-500 mb-5" />
-          Algo deu errado!
+          <p className="text-xl font-bold">Algo deu errado!</p>
           <div className="flex justify-center">
             <Button className="mt-5" onClick={resetPage}>
               Voltar
