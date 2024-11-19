@@ -3,10 +3,10 @@ import LoadingIcon from "../../../components/Global/LoadingIcon";
 import { FaRegCheckCircle } from "react-icons/fa";
 import Button from "../../../components/Global/Button";
 import { VscError } from "react-icons/vsc";
-import { useNavigate } from "react-router-dom";
+import { Product } from "../../../types/Product";
+import ButtonLink from "../../../components/Global/ButtonLink";
 
 const ProductCreation = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState<{
     name: string;
     category: string;
@@ -23,20 +23,13 @@ const ProductCreation = () => {
   const [pageState, setPageState] = useState<
     "FORM" | "LOADING" | "ERROR" | "PRODUCT_CREATED"
   >("FORM");
-  const [createdProduct, setCreatedProduct] = useState<{
-    id: number;
-    name: string;
-    category: string;
-    price: number;
-    description: string;
-    imageUrl: string;
-  }>();
+  const [createdProduct, setCreatedProduct] = useState<Product>();
   const [responseError, setResponseError] = useState<number>();
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.id]:
-        e.target.id === "price" ? Number(e.target.value) : e.target.value,
+        e.target.id === "price" ? parseFloat(e.target.value) : e.target.value,
     }));
   };
   const createProduct = async (e: React.FormEvent) => {
@@ -74,9 +67,6 @@ const ProductCreation = () => {
       description: "",
       imageUrl: "",
     });
-  };
-  const returnToProductsPage = () => {
-    navigate("/admin/products");
   };
   return (
     <div className="flex flex-col h-full text-center w-full justify-center px-4">
@@ -197,7 +187,7 @@ const ProductCreation = () => {
           </div>
           <div>
             <span className="text-primary">Preço: </span>
-            <span>{`R$${createdProduct?.price
+            <span>{`R$${Number(createdProduct?.price)
               .toFixed(2)
               .replace(".", ",")}`}</span>
           </div>
@@ -232,9 +222,9 @@ const ProductCreation = () => {
         </div>
       )}
       <div className="flex justify-center">
-        <Button onClick={returnToProductsPage} className="mt-5">
+        <ButtonLink to="/admin/products" className="mt-5">
           Voltar à tela de produtos
-        </Button>
+        </ButtonLink>
       </div>
     </div>
   );

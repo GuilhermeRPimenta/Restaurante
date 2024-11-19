@@ -21,7 +21,7 @@ const createProduct = async (req, res) => {
             });
             return;
         }
-        if (!req.body.price || typeof req.body.price !== "number") {
+        if (req.body.price === undefined || typeof req.body.price !== "number") {
             res
                 .status(422)
                 .json({ errorCode: 4, error: "Price is non existent or not a number" });
@@ -120,29 +120,50 @@ const getProductById = async (req, res) => {
 exports.getProductById = getProductById;
 const updateProduct = async (req, res) => {
     try {
-        if (req.body.price) {
-            if (typeof req.body.price !== "number") {
-                res.status(422).json({ error: "Price is not a number" });
-                return;
-            }
-            if (req.body.price < 0) {
-                res.status(422).json({ error: "Negative price" });
-                return;
-            }
+        if (!req.body.name || req.body.name.length === 0) {
+            res
+                .status(400)
+                .json({ errorCode: 2, error: "'name' field is empty or non existent" });
+            return;
+        }
+        if (!req.body.category || req.body.category.length === 0) {
+            res.status(400).json({
+                errorCode: 3,
+                error: "'category' field is empty or non existent",
+            });
+            return;
+        }
+        if (req.body.price === undefined || typeof req.body.price !== "number") {
+            res
+                .status(422)
+                .json({ errorCode: 4, error: "Price is non existent or not a number" });
+            return;
+        }
+        if (req.body.price < 0) {
+            res.status(400).json({ errorCode: 5, error: "Negative price" });
+            return;
         }
         if (req.body.imageUrl) {
-            const imageUrlResponse = await fetch(req.body.imageUrl, {
-                method: "HEAD",
-            });
-            if (!imageUrlResponse.ok) {
-                res.status(422).json({ error: "Invalid URL" });
-                return;
+            try {
+                const imageUrlResponse = await fetch(req.body.imageUrl, {
+                    method: "HEAD",
+                });
+                if (!imageUrlResponse.ok) {
+                    res.status(422).json({ errorCode: 6, error: "Invalid URL" });
+                    return;
+                }
+                const urlContentType = imageUrlResponse.headers
+                    .get("Content-Type")
+                    ?.includes("image");
+                if (!urlContentType) {
+                    res
+                        .status(422)
+                        .json({ errorCode: 7, error: "URL does not contains an image" });
+                    return;
+                }
             }
-            const urlContentType = imageUrlResponse.headers
-                .get("Content-Type")
-                ?.includes("image");
-            if (!urlContentType) {
-                res.status(422).json({ error: "URL does not contains an image" });
+            catch (e) {
+                res.status(422).json({ errorCode: 8, error: "Invalid URL" });
                 return;
             }
         }
