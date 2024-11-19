@@ -54,7 +54,7 @@ const createProduct = async (req: Request, res: Response) => {
     const product = await prisma.product.create({
       data: req.body,
     });
-    res.status(201).json({ ...product, price: product.price.toFixed(2) });
+    res.status(201).json(product);
     return;
   } catch (error) {
     console.log(error);

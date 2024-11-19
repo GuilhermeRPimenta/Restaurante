@@ -189,7 +189,7 @@ const ProductCreation = () => {
           <div>
             <span className="text-primary">Preço: </span>
             <span>{`R$${createdProduct?.price
-              .toString()
+              .toFixed(2)
               .replace(".", ",")}`}</span>
           </div>
 
