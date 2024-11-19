@@ -23,7 +23,12 @@ const ProductUpdate = () => {
     imageUrl: "",
   });
   const [pageState, setPageState] = useState<
-    "FORM" | "LOADING" | "ERROR" | "PRODUCT_UPDATED"
+    | "FORM"
+    | "LOADING"
+    | "ERROR"
+    | "PRODUCT_UPDATED"
+    | "PRODUCT_DELETED"
+    | "PRODUCT_NOT_FOUND"
   >("FORM");
   const [product, setProduct] = useState<Product | null>(null);
   const [responseError, setResponseError] = useState<number>();
@@ -43,7 +48,16 @@ const ProductUpdate = () => {
           method: "GET",
         }
       );
-      const productData: Product = await fetchedProduct.json();
+      const productData = await fetchedProduct.json();
+      if (!fetchedProduct.ok) {
+        if (fetchedProduct.status === 404 && productData.errorCode === 3) {
+          setPageState("PRODUCT_NOT_FOUND");
+          return;
+        }
+        setPageState("ERROR");
+        return;
+      }
+
       setProduct(productData);
       setFormData({ ...productData, price: Number(productData.price) });
       setPageState("FORM");
@@ -51,6 +65,7 @@ const ProductUpdate = () => {
       setPageState("ERROR");
     }
   };
+  console.log(pageState);
   useEffect(() => {
     fetchProduct();
   }, []);
@@ -68,7 +83,6 @@ const ProductUpdate = () => {
           body: JSON.stringify(formData),
         }
       );
-      console.log(response);
       const responseJson = await response.json();
       if (!response.ok) {
         if (responseJson.errorCode === 1) setPageState("ERROR");
@@ -78,6 +92,18 @@ const ProductUpdate = () => {
         setProduct(responseJson);
         setPageState("PRODUCT_UPDATED");
       }
+    } catch (e) {
+      setPageState("ERROR");
+    }
+  };
+
+  const deleteProduct = async () => {
+    try {
+      setPageState("LOADING");
+      await fetch(`http://localhost:8000/api/products/${productId}`, {
+        method: "DELETE",
+      });
+      setPageState("PRODUCT_DELETED");
     } catch (e) {
       setPageState("ERROR");
     }
@@ -220,11 +246,13 @@ const ProductUpdate = () => {
               href={`${product?.imageUrl}`}
             >{`${product?.imageUrl}`}</a>
           </div>
-          <div className="flex justify-center">
-            <ButtonLink to="/admin/products" className="mt-5">
-              Voltar
-            </ButtonLink>
-          </div>
+          <div className="flex justify-center"></div>
+        </div>
+      )}
+      {pageState === "PRODUCT_DELETED" && (
+        <div className="flex flex-col justify-center">
+          <FaRegCheckCircle className="text-7xl w-full text-green-500 mb-5" />
+          <p>Produto excluído!</p>
         </div>
       )}
       {pageState === "ERROR" && (
@@ -232,17 +260,28 @@ const ProductUpdate = () => {
           <VscError className="text-7xl w-full text-red-500 mb-5" />
           Algo deu errado!
           <div className="flex gap-2 justify-center mt-5">
-            <ButtonLink to="/admin/products">Voltar</ButtonLink>
             <Button className="w-fit h-fit" onClick={fetchProduct}>
               Tentar novamente
             </Button>
           </div>
         </div>
       )}
-      <div className="flex justify-center">
-        <ButtonLink to="/admin/products" className="mt-5">
-          Voltar à tela de produtos
-        </ButtonLink>
+      {pageState === "PRODUCT_NOT_FOUND" && (
+        <div className="flex flex-col text-center justify-center">
+          <VscError className="text-7xl w-full text-red-500 mb-5" />
+          Produto não encontrado!
+        </div>
+      )}
+      {(pageState === "FORM" || pageState === "PRODUCT_UPDATED") && (
+        <div className="flex justify-center mt-5">
+          <Button variant="desctructive" onClick={deleteProduct}>
+            Excluir produto
+          </Button>
+        </div>
+      )}
+
+      <div className="flex justify-center mt-5">
+        <ButtonLink to="/admin/products">Voltar à tela de produtos</ButtonLink>
       </div>
     </div>
   );
