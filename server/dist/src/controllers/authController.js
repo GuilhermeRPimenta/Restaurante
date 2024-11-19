@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.registerUser = void 0;
+exports.getUserById = exports.updateUser = exports.registerUser = void 0;
 const client_1 = require("@prisma/client");
 const prismaClient_1 = __importDefault(require("./prismaClient"));
 const registerUser = async (req, res) => {
@@ -63,6 +63,30 @@ const registerUser = async (req, res) => {
     }
 };
 exports.registerUser = registerUser;
+const getUserById = async (req, res) => {
+    try {
+        const user = await prismaClient_1.default.user.findUnique({
+            where: {
+                id: parseInt(req.params.id),
+            },
+        });
+        if (!user) {
+            res.status(404).json({ errorCode: 3, error: "User not found" });
+            return;
+        }
+        res.status(200).json(user);
+        return;
+    }
+    catch (error) {
+        if (error instanceof client_1.Prisma.PrismaClientValidationError) {
+            res.status(400).json({ errorCode: 2, error: error.message });
+            return;
+        }
+        res.status(500).json({ errorCode: 1, error: error.message });
+        return;
+    }
+};
+exports.getUserById = getUserById;
 const updateUser = async (req, res) => {
     try {
         if (!req.body.name || req.body.name.length === 0) {

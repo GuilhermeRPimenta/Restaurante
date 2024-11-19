@@ -29,4 +29,5 @@ const authController = __importStar(require("../controllers/authController"));
 const router = (0, express_1.Router)();
 exports.router = router;
 router.post("/register", authController.registerUser);
+router.get("/:id", authController.getUserById);
 router.put("/:id", authController.updateUser);

@@ -58,6 +58,29 @@ const registerUser = async (req: Request, res: Response) => {
   }
 };
 
+const getUserById = async (req: Request, res: Response) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    if (!user) {
+      res.status(404).json({ errorCode: 3, error: "User not found" });
+      return;
+    }
+    res.status(200).json(user);
+    return;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientValidationError) {
+      res.status(400).json({ errorCode: 2, error: error.message });
+      return;
+    }
+    res.status(500).json({ errorCode: 1, error: error.message });
+    return;
+  }
+};
+
 const updateUser = async (req: Request, res: Response) => {
   try {
     if (!req.body.name || req.body.name.length === 0) {
@@ -108,4 +131,4 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-export { registerUser, updateUser };
+export { registerUser, updateUser, getUserById };
