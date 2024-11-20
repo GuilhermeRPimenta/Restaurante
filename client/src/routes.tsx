@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import ProductUpdate from "./pages/admin/products/ProductUpdate";
 import ProductsHome from "./pages/admin/products/ProductsHome";
 import UserHome from "./pages/user/UserHome";
+import Checkout from "./pages/Checkout";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/products/:productId",
         element: <ProductUpdate />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
       { path: "/*", element: <NotFound /> },
     ],
