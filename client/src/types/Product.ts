@@ -18,4 +18,14 @@ interface ProductsByCategory {
   }[];
 }
 
-export { type Product, type ProductsByCategory };
+interface ProductWithQuantity {
+  id: number;
+  name: string;
+  category: string;
+  price: string;
+  description: string | undefined;
+  imageUrl: string | undefined;
+  quantity: number;
+}
+
+export { type Product, type ProductsByCategory, type ProductWithQuantity };
