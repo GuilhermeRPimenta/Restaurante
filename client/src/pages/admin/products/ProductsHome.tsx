@@ -53,7 +53,7 @@ const ProductsHome = () => {
             return (
               <div key={category}>
                 <h3 className="text-3xl font-bold py-2">{category}</h3>
-                <div className="grid md:grid-cols-2 gap-3 max-w-3xl">
+                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3 2xl:grid-cols-4  max-w-3xl xl:max-w-6xl 2xl:max-w-max">
                   {productsByCategory[category]?.map((product) => (
                     <AdminProductCard product={product} key={product.id} />
                   ))}
