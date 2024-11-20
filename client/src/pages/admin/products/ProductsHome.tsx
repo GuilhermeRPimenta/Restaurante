@@ -47,20 +47,22 @@ const ProductsHome = () => {
           Criar produto
         </ButtonLink>
       </div>
-      {productsByCategory &&
-        pageState === "LOADED" &&
-        Object.keys(productsByCategory).map((category) => {
-          return (
-            <div key={category}>
-              <h3 className="text-3xl font-bold py-2">{category}</h3>
-              <div className="grid md:grid-cols-2 gap-3 max-w-3xl">
-                {productsByCategory[category]?.map((product) => (
-                  <AdminProductCard product={product} key={product.id} />
-                ))}
+      {productsByCategory && pageState === "LOADED" && (
+        <div className="grid gap-y-10">
+          {Object.keys(productsByCategory).map((category) => {
+            return (
+              <div key={category}>
+                <h3 className="text-3xl font-bold py-2">{category}</h3>
+                <div className="grid md:grid-cols-2 gap-3 max-w-3xl">
+                  {productsByCategory[category]?.map((product) => (
+                    <AdminProductCard product={product} key={product.id} />
+                  ))}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+      )}
       {pageState === "LOADING" && <LoadingIcon className="text-7xl w-full" />}
       {pageState === "ERROR" && (
         <div className="flex flex-col text-center justify-center">

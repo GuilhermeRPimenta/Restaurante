@@ -15,11 +15,7 @@ const Header = () => {
   return (
     <header className="bg-gray-100 sticky top-0 z-[10]">
       <div className="p-1 sm:px-6 justify-between shadow-lg flex items-center  ">
-        <NavLink
-          to={"/"}
-          onClick={handleMobileNavIsOpenChange}
-          className="flex items-center mb-auto"
-        >
+        <NavLink to={"/"} className="flex items-center mb-auto">
           <img src={logoOrange} alt="" className="w-12" />
           <h1 className="font-pacifico  text-3xl text-primary">Bom Prato</h1>
         </NavLink>

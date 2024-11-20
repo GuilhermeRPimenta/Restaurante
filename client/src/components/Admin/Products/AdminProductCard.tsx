@@ -22,7 +22,7 @@ const AdminProductCard = ({ product }: { product: Product }) => {
       <div className="mt-auto">
         <div>
           <span className="font-bold">Preço: </span>
-          <span>{`R$${Number(product.price)
+          <span>{`R$ ${Number(product.price)
             .toFixed(2)
             .replace(".", ",")}`}</span>
         </div>
