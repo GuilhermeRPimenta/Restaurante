@@ -230,7 +230,9 @@ const UserHome = () => {
           <VscError className="text-7xl w-full text-red-500 mb-5" />
           Algo deu errado!
           <div className="flex gap-2 justify-center mt-5">
-            <Button className="w-fit h-fit">Tentar novamente</Button>
+            <Button onClick={resetPage} className="w-fit h-fit">
+              Voltar
+            </Button>
           </div>
         </div>
       )}

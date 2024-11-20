@@ -21,20 +21,17 @@ const ProductsHome = () => {
           method: "GET",
         }
       );
-      try {
-        const productsData: Product[] = await fetchedProducts.json();
-        const productsByCategory = productsData.reduce((acc, product) => {
-          if (!acc[product.category]) {
-            acc[product.category] = [];
-          }
-          acc[product.category].push(product);
-          return acc;
-        }, {} as ProductsByCategory);
-        setProductsByCategory(productsByCategory);
-        setPageState("LOADED");
-      } catch (e) {
-        setPageState("ERROR");
-      }
+
+      const productsData: Product[] = await fetchedProducts.json();
+      const productsByCategory = productsData.reduce((acc, product) => {
+        if (!acc[product.category]) {
+          acc[product.category] = [];
+        }
+        acc[product.category].push(product);
+        return acc;
+      }, {} as ProductsByCategory);
+      setProductsByCategory(productsByCategory);
+      setPageState("LOADED");
     } catch (e) {
       setPageState("ERROR");
     }
