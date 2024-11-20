@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
-import User from "./pages/User";
+import UserRegister from "./pages/user/UserRegister";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Admin from "./pages/admin/Admin";
@@ -8,6 +8,7 @@ import ProductCreation from "./pages/admin/products/ProductCreation";
 import NotFound from "./pages/NotFound";
 import ProductUpdate from "./pages/admin/products/ProductUpdate";
 import ProductsHome from "./pages/admin/products/ProductsHome";
+import UserHome from "./pages/user/UserHome";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/user", element: <User /> },
+      { path: "/user", element: <UserHome /> },
+      { path: "/user/register", element: <UserRegister /> },
       { path: "/about", element: <About /> },
       {
         path: "/admin",

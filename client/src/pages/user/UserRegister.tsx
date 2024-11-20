@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import Button from "../components/Global/Button";
-import LoadingIcon from "../components/Global/LoadingIcon";
+import Button from "../../components/Global/Button";
+import LoadingIcon from "../../components/Global/LoadingIcon";
 import { VscError } from "react-icons/vsc";
 import { FaRegCheckCircle } from "react-icons/fa";
+import ButtonLink from "../../components/Global/ButtonLink";
 
-const User = () => {
+const UserRegister = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -160,13 +161,18 @@ const User = () => {
           <p className="text-xl font-bold">Algo deu errado!</p>
           <div className="flex justify-center">
             <Button className="mt-5" onClick={resetPage}>
-              Voltar
+              Criar novo usuário
             </Button>
           </div>
         </div>
       )}
+      <div className="flex mt-5 justify-center">
+        <ButtonLink className="w-fit" to="/user">
+          Voltar à tela de usuário
+        </ButtonLink>
+      </div>
     </div>
   );
 };
 
-export default User;
+export default UserRegister;

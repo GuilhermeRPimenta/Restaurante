@@ -58,11 +58,11 @@ const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-const getUserById = async (req: Request, res: Response) => {
+const getUserByEmail = async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: parseInt(req.params.id),
+        email: req.params.email,
       },
     });
     if (!user) {
@@ -131,4 +131,4 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-export { registerUser, updateUser, getUserById };
+export { registerUser, updateUser, getUserByEmail };
