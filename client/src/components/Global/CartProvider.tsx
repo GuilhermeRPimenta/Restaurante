@@ -13,7 +13,6 @@ const CartContext = createContext<{
 
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cartContent, setCart] = useState<ProductWithQuantity[]>([]);
-
   const modifyCart = (product: ProductWithQuantity) => {
     if (!cartContent.find((content) => content.id === product.id)) {
       if (product.quantity !== 0) setCart((prev) => [...prev, product]);

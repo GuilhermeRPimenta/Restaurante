@@ -38,7 +38,7 @@ const Home = () => {
     fetchProducts();
   }, []);
   return (
-    <div className="text-center items-center px-2">
+    <div className="text-center items-center px-2 pb-16">
       <h2 className="text-4xl font-bold mb-10">Cardápio</h2>
       {productsByCategory && pageState === "LOADED" && (
         <div className="grid gap-y-10">
