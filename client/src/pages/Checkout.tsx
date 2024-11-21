@@ -21,7 +21,7 @@ const Checkout = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="flex flex-col h-full text-center w-full justify-center px-4 pb-16">
+    <div className="flex flex-col h-full text-center w-full justify-center pb-16">
       <h2 className="text-4xl font-bold mb-10">Finalizar pedido</h2>
       <h3 className="text-2xl font-bold">Revise seu pedido:</h3>
       <div className="grid gap-y-10">
