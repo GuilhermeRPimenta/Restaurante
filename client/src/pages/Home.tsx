@@ -3,7 +3,7 @@ import { Product, ProductsByCategory } from "../types/Product";
 import LoadingIcon from "../components/Global/LoadingIcon";
 import { VscError } from "react-icons/vsc";
 import Button from "../components/Global/Button";
-import ProductCard from "../components/Home/ProductCard";
+import ProductCard from "../components/Global/ProductCard";
 
 const Home = () => {
   const [productsByCategory, setProductsByCategory] =
@@ -38,7 +38,7 @@ const Home = () => {
     fetchProducts();
   }, []);
   return (
-    <div className="text-center items-center px-2 pb-16">
+    <div className="text-center items-center pb-16">
       <h2 className="text-4xl font-bold mb-10">Cardápio</h2>
       {productsByCategory && pageState === "LOADED" && (
         <div className="grid gap-y-10">

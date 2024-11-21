@@ -13,7 +13,9 @@ const MainLayout = () => {
         <Main>
           <Outlet />
         </Main>
-        {location.pathname === "/" && <Footer />}
+        {(location.pathname === "/" || location.pathname === "/checkout") && (
+          <Footer />
+        )}
       </CartProvider>
     </div>
   );

@@ -1,7 +1,7 @@
 import brokenImage from "../../assets/icons8-broken-image-100.png";
 import { Product } from "../../types/Product";
-import Button from "../Global/Button";
-import { useCart } from "../Global/CartProvider";
+import Button from "./Button";
+import { useCart } from "./CartProvider";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const cart = useCart();
@@ -22,7 +22,7 @@ const ProductCard = ({ product }: { product: Product }) => {
     });
   };
   return (
-    <div className="flex flex-col gap-2 items-center p-2 bg-secondary rounded-xl max-w-sm w-full mx-auto hover:shadow-md">
+    <div className="flex flex-col gap-2 items-center py-2 bg-secondary rounded-xl max-w-sm w-full mx-auto hover:shadow-md">
       <h4 className="text-2xl font-bold">{product.name}</h4>
       <img
         src={product.imageUrl || brokenImage}

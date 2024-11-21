@@ -1,7 +1,9 @@
+import { useLocation } from "react-router-dom";
 import ButtonLink from "../Global/ButtonLink";
 import { useCart } from "../Global/CartProvider";
 
 const Footer = () => {
+  const location = useLocation();
   const cart = useCart();
   const total = cart.cartContent.reduce((acc, product) => {
     const val = Number(product.price) * product.quantity;
@@ -13,13 +15,19 @@ const Footer = () => {
       className={`bg-gray-100 p-2 flex gap-2 items-center justify-center fixed z-[10] w-full transition-all duration-200 ${
         hiddenFooter ? "bottom-[-5rem]" : "bottom-0"
       }`}
+      style={{
+        boxShadow:
+          "0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -2px rgba(0, 0, 0, 0.1)",
+      }}
     >
-      <div className="font-bold mx-auto w-28 md:w-72">{`Total: R$${total
+      <div className="font-bold mx-auto ">{`Total: R$${total
         .toFixed(2)
         .replace(".", ",")}`}</div>
-      <ButtonLink className="px-8 md:px-32 mx-auto lg:px-48" to="/checkout">
-        Finalizar
-      </ButtonLink>
+      {location.pathname === "/" && (
+        <ButtonLink className="px-8 md:px-32 mx-auto " to="/checkout">
+          Finalizar
+        </ButtonLink>
+      )}
     </footer>
   );
 };
