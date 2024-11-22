@@ -86,7 +86,7 @@ const getProducts = async (req: Request, res: Response) => {
     res.status(200).json(products);
     return;
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ errorCode: 1, error: error.message });
     return;
   }
 };
@@ -192,11 +192,11 @@ const deleteProduct = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
-        res.status(404).json({ error: error.message });
+        res.status(404).json({ errorCode: 2, error: "Product not found" });
         return;
       }
     }
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ errorCode: 1, error: error.message });
     return;
   }
 };
