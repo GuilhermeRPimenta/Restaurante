@@ -5,6 +5,7 @@ import Button from "../../../components/Global/Button";
 import { VscError } from "react-icons/vsc";
 import { Product } from "../../../types/Product";
 import ButtonLink from "../../../components/Global/ButtonLink";
+import apiBaseUrl from "../../../apiBaseUrl";
 
 const ProductCreation = () => {
   const [formData, setFormData] = useState<{
@@ -36,7 +37,7 @@ const ProductCreation = () => {
     e.preventDefault();
     try {
       setPageState("LOADING");
-      const response = await fetch("http://localhost:8000/api/products", {
+      const response = await fetch(`${apiBaseUrl}/api/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

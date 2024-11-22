@@ -6,6 +6,7 @@ import { VscError } from "react-icons/vsc";
 import LoadingIcon from "../Global/LoadingIcon";
 import { FaRegCheckCircle } from "react-icons/fa";
 import ButtonLink from "../Global/ButtonLink";
+import apiBaseUrl from "../../apiBaseUrl";
 
 const CheckoutModal = ({
   isOpen,
@@ -47,7 +48,7 @@ const CheckoutModal = ({
     console.log(JSON.stringify(formData.current));
     try {
       setPageState("LOADING");
-      const response = await fetch("http://localhost:8000/api/orders", {
+      const response = await fetch(`${apiBaseUrl}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

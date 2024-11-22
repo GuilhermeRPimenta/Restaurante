@@ -3,6 +3,7 @@ import Button from "../../components/Global/Button";
 import { VscError } from "react-icons/vsc";
 import { FaRegCheckCircle } from "react-icons/fa";
 import ButtonLink from "../../components/Global/ButtonLink";
+import apiBaseUrl from "../../apiBaseUrl";
 
 const UserHome = () => {
   const [pageState, setPageState] = useState<
@@ -32,7 +33,7 @@ const UserHome = () => {
     try {
       setPageState("LOADING");
       const response = await fetch(
-        `http://localhost:8000/api/auth/login/${loginFormData.email}`,
+        `${apiBaseUrl}/api/auth/login/${loginFormData.email}`,
         {
           method: "GET",
         }
@@ -59,7 +60,7 @@ const UserHome = () => {
     try {
       setPageState("LOADING");
       const response = await fetch(
-        `http://localhost:8000/api/auth/update/${user?.id}`,
+        `${apiBaseUrl}/api/auth/update/${user?.id}`,
         {
           method: "PUT",
           headers: {

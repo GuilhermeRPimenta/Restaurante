@@ -6,6 +6,7 @@ import Button from "../../../components/Global/Button";
 import { FaRegCheckCircle } from "react-icons/fa";
 import ButtonLink from "../../../components/Global/ButtonLink";
 import LoadingIcon from "../../../components/Global/LoadingIcon";
+import apiBaseUrl from "../../../apiBaseUrl";
 
 const ProductUpdate = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -43,7 +44,7 @@ const ProductUpdate = () => {
     try {
       setPageState("LOADING");
       const fetchedProduct = await fetch(
-        `http://localhost:8000/api/products/${productId}`,
+        `${apiBaseUrl}/api/products/${productId}`,
         {
           method: "GET",
         }
@@ -73,16 +74,13 @@ const ProductUpdate = () => {
     e.preventDefault();
     try {
       setPageState("LOADING");
-      const response = await fetch(
-        `http://localhost:8000/api/products/${productId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${apiBaseUrl}/api/products/${productId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
       const responseJson = await response.json();
       if (!response.ok) {
         if (responseJson.errorCode === 1) setPageState("ERROR");
@@ -100,7 +98,7 @@ const ProductUpdate = () => {
   const deleteProduct = async () => {
     try {
       setPageState("LOADING");
-      await fetch(`http://localhost:8000/api/products/${productId}`, {
+      await fetch(`${apiBaseUrl}/api/products/${productId}`, {
         method: "DELETE",
       });
       setPageState("PRODUCT_DELETED");

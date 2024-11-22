@@ -4,6 +4,7 @@ import LoadingIcon from "../components/Global/LoadingIcon";
 import { VscError } from "react-icons/vsc";
 import Button from "../components/Global/Button";
 import ProductCard from "../components/Global/ProductCard";
+import apiBaseUrl from "../apiBaseUrl";
 
 const Home = () => {
   const [productsByCategory, setProductsByCategory] =
@@ -14,12 +15,9 @@ const Home = () => {
   const fetchProducts = async () => {
     setPageState("LOADING");
     try {
-      const fetchedProducts = await fetch(
-        "http://localhost:8000/api/products",
-        {
-          method: "GET",
-        }
-      );
+      const fetchedProducts = await fetch(`${apiBaseUrl}/api/products`, {
+        method: "GET",
+      });
       const productsData: Product[] = await fetchedProducts.json();
       const productsByCategory = productsData.reduce((acc, product) => {
         if (!acc[product.category]) {

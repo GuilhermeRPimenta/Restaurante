@@ -4,6 +4,7 @@ import LoadingIcon from "../../components/Global/LoadingIcon";
 import { VscError } from "react-icons/vsc";
 import { FaRegCheckCircle } from "react-icons/fa";
 import ButtonLink from "../../components/Global/ButtonLink";
+import apiBaseUrl from "../../apiBaseUrl";
 
 const UserRegister = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,7 @@ const UserRegister = () => {
     e.preventDefault();
     try {
       setPageState("LOADING");
-      const response = await fetch("http://localhost:8000/api/auth/register", {
+      const response = await fetch(`${apiBaseUrl}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
