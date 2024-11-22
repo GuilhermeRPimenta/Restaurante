@@ -46,7 +46,7 @@ const OrdersHome = () => {
               <div className="w-1/4 text-right">Preço total</div>
             </div>
 
-            <div className="max-w-2xl w-full">
+            <div className="max-w-2xl flex gap-3 flex-col w-full">
               {orders.map((order) => {
                 return <OrderCard key={order.id} order={order} />;
               })}

@@ -44,10 +44,12 @@ const Checkout = () => {
           return (
             <div key={category}>
               <h3 className="text-3xl font-bold py-2">{category}</h3>
-              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3 2xl:grid-cols-4  max-w-3xl xl:max-w-6xl 2xl:max-w-max">
-                {productsByCategory[category]?.map((product) => (
-                  <ProductCard product={product} key={product.id} />
-                ))}
+              <div className="flex justify-center">
+                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3 2xl:grid-cols-4  max-w-3xl xl:max-w-6xl 2xl:max-w-max">
+                  {productsByCategory[category]?.map((product) => (
+                    <ProductCard product={product} key={product.id} />
+                  ))}
+                </div>
               </div>
             </div>
           );
@@ -55,16 +57,12 @@ const Checkout = () => {
       </div>
       <div className="flex flex-col gap-3 mt-6 items-center">
         <Button
-          className="mr-auto w-full max-w-96"
+          className=" w-full max-w-96"
           onClick={() => setModalIsOpen(true)}
         >
           Finalizar
         </Button>
-        <ButtonLink
-          variant="desctructive"
-          className="ml-auto w-full max-w-96"
-          to="/"
-        >
+        <ButtonLink variant="desctructive" className=" w-full max-w-96" to="/">
           Voltar ao cardápio
         </ButtonLink>
       </div>
