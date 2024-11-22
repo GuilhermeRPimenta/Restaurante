@@ -33,7 +33,12 @@ const registerUser = async (req, res) => {
                 if (!Number.isNaN(parseInt(phone[i])))
                     phoneNumbers += parseInt(phone[i]);
             }
-            if (phoneNumbers.length !== 10 && phoneNumbers.length !== 11) {
+            if ((phoneNumbers[0] === "0" &&
+                phoneNumbers.length !== 11 &&
+                phoneNumbers.length !== 12) ||
+                (phoneNumbers[0] !== "0" &&
+                    phoneNumbers.length !== 10 &&
+                    phoneNumbers.length !== 11)) {
                 res.status(400).json({ errorCode: 5, error: "Invalid phone" });
                 return;
             }
@@ -114,7 +119,12 @@ const updateUser = async (req, res) => {
                 if (!Number.isNaN(parseInt(phone[i])))
                     phoneNumbers += parseInt(phone[i]);
             }
-            if (phoneNumbers.length !== 10 && phoneNumbers.length !== 11) {
+            if ((phoneNumbers[0] === "0" &&
+                phoneNumbers.length !== 11 &&
+                phoneNumbers.length !== 12) ||
+                (phoneNumbers[0] !== "0" &&
+                    phoneNumbers.length !== 10 &&
+                    phoneNumbers.length !== 11)) {
                 res.status(400).json({ errorCode: 5, error: "Invalid phone" });
                 return;
             }
@@ -123,7 +133,12 @@ const updateUser = async (req, res) => {
             where: {
                 id: parseInt(req.params.id),
             },
-            data: req.body,
+            data: {
+                name: req.body.name,
+                email: req.body.email,
+                address: req.body.address,
+                phone: phoneNumbers,
+            },
         });
         res.status(200).json(user);
         return;

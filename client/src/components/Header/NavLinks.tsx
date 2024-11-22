@@ -1,6 +1,5 @@
 import { FaUserAlt } from "react-icons/fa";
 import { GrUserAdmin } from "react-icons/gr";
-import { IoIosInformationCircle } from "react-icons/io";
 import { IoHomeSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 
@@ -33,16 +32,6 @@ const NavLinks = ({
       >
         <FaUserAlt />
         Usuário
-      </NavLink>
-      <NavLink
-        onClick={handleNavLinkClick}
-        to={"/about"}
-        className={({ isActive }) =>
-          `${baseStyle} ${isActive ? "text-primary" : "text-eerieBlack"}`
-        }
-      >
-        <IoIosInformationCircle />
-        Sobre
       </NavLink>
       <NavLink
         onClick={handleNavLinkClick}
