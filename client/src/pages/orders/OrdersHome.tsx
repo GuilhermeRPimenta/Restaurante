@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import apiBaseUrl from "../../apiBaseUrl";
 import { Order } from "../../types/Order";
 import OrderCard from "../../components/Admin/Orders/OrderCard";
+import { VscError } from "react-icons/vsc";
+import Button from "../../components/Global/Button";
+import LoadingIcon from "../../components/Global/LoadingIcon";
 
 const OrdersHome = () => {
   const [pageState, setPageState] = useState<"LOADING" | "LOADED" | "ERROR">(
@@ -45,10 +48,23 @@ const OrdersHome = () => {
 
             <div className="max-w-2xl w-full">
               {orders.map((order) => {
-                console.log(order);
-                return <OrderCard order={order} />;
+                return <OrderCard key={order.id} order={order} />;
               })}
             </div>
+          </div>
+        </div>
+      )}
+      {pageState === "LOADING" && (
+        <LoadingIcon className="text-7xl w-full mb-5" />
+      )}
+      {pageState === "ERROR" && (
+        <div className="flex flex-col text-center justify-center">
+          <VscError className="text-7xl w-full text-red-500 mb-5" />
+          <p className="text-xl font-bold">Algo deu errado!</p>
+          <div className="flex justify-center">
+            <Button className="mt-5" onClick={fetchOrders}>
+              Recarregar
+            </Button>
           </div>
         </div>
       )}

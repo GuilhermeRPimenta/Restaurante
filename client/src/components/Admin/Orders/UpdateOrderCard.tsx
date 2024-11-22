@@ -1,7 +1,13 @@
 import { Order } from "../../../types/Order";
-import ButtonLink from "../../Global/ButtonLink";
+import Button from "../../Global/Button";
 
-const OrderCard = ({ order }: { order: Order }) => {
+const UpdateOrderCard = ({
+  order,
+  handleUpdateStatus,
+}: {
+  order: Order;
+  handleUpdateStatus: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}) => {
   return (
     <div className="flex flex-col gap-2 items-center p-2 bg-secondary max-w-2xl w-full outline outline-1 outline-black mx-auto">
       <div className="w-full">
@@ -16,21 +22,17 @@ const OrderCard = ({ order }: { order: Order }) => {
           })}
         </h4>
         <h5 className="text-md font-bold">Id: {order.id}</h5>
-        <p
-          className={`text-md font-bold rounded-full ${
-            (order.status === "PENDENTE" && "bg-red-400") ||
-            (order.status === "EM_PREPARO" && "bg-yellow-400") ||
-            (order.status === "ENTREGUE" && "bg-green-400") ||
-            (order.status === "CANCELADO" && "bg-violet-600")
-          }`}
+        <select
+          name="status"
+          id="status"
+          defaultValue={order.status}
+          onChange={handleUpdateStatus}
         >
-          {order.status}
-        </p>
-        <div className="flex justify-center my-2">
-          <ButtonLink className="w-fit" to={`/admin/orders/${order.id}`}>
-            Editar status
-          </ButtonLink>
-        </div>
+          <option value="PENDENTE">PENDENTE</option>
+          <option value="EM_PREPARO">EM PREPARO</option>
+          <option value="ENTREGUE">ENTREGUE</option>
+          <option value="CANCELADO">CANCELADO</option>
+        </select>
 
         <div className="w-full">
           {order.products?.map((product) => {
@@ -51,8 +53,9 @@ const OrderCard = ({ order }: { order: Order }) => {
           <p className="font-bold text-xl">R$ {order.totalPrice}</p>
         </div>
       </div>
+      <Button>Enviar</Button>
     </div>
   );
 };
 
-export default OrderCard;
+export default UpdateOrderCard;

@@ -43,15 +43,12 @@ const ProductUpdate = () => {
   const fetchProduct = async () => {
     try {
       setPageState("LOADING");
-      const fetchedProduct = await fetch(
-        `${apiBaseUrl}/api/products/${productId}`,
-        {
-          method: "GET",
-        }
-      );
-      const productData = await fetchedProduct.json();
-      if (!fetchedProduct.ok) {
-        if (fetchedProduct.status === 404 && productData.errorCode === 3) {
+      const response = await fetch(`${apiBaseUrl}/api/products/${productId}`, {
+        method: "GET",
+      });
+      const productData = await response.json();
+      if (!response.ok) {
+        if (response.status === 404 && productData.errorCode === 3) {
           setPageState("PRODUCT_NOT_FOUND");
           return;
         }
@@ -66,7 +63,6 @@ const ProductUpdate = () => {
       setPageState("ERROR");
     }
   };
-  console.log(pageState);
   useEffect(() => {
     fetchProduct();
   }, []);

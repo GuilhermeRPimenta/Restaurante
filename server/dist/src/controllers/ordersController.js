@@ -156,7 +156,7 @@ const getOrderById = async (req, res) => {
             },
         });
         if (!order) {
-            res.status(404).json({ error: "Order not found" });
+            res.status(404).json({ errorCode: 3, error: "Order not found" });
             return;
         }
         const formattedOrder = {
@@ -177,10 +177,10 @@ const getOrderById = async (req, res) => {
     }
     catch (error) {
         if (error instanceof client_1.Prisma.PrismaClientValidationError) {
-            res.status(400).json({ error: error.message });
+            res.status(400).json({ errorCode: 2, error: error.message });
             return;
         }
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ errorCode: 1, error: error.message });
         return;
     }
 };
@@ -200,10 +200,10 @@ const updateOrderStatus = async (req, res) => {
     }
     catch (error) {
         if (error instanceof client_1.Prisma.PrismaClientValidationError) {
-            res.status(422).json({ error: error.message });
+            res.status(404).json({ errorCode: 2, error: error.message });
             return;
         }
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ errorCode: 1, error: error.message });
         return;
     }
 };
