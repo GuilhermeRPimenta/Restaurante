@@ -202,6 +202,13 @@ const deleteProduct = async (req, res) => {
                 res.status(404).json({ errorCode: 2, error: "Product not found" });
                 return;
             }
+            if (error.code === "P2003") {
+                res.status(409).json({
+                    errorCode: 3,
+                    error: "Product cannot be deleted because is is associated with existing orders",
+                });
+                return;
+            }
         }
         res.status(500).json({ errorCode: 1, error: error.message });
         return;

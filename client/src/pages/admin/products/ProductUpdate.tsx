@@ -30,6 +30,7 @@ const ProductUpdate = () => {
     | "PRODUCT_UPDATED"
     | "PRODUCT_DELETED"
     | "PRODUCT_NOT_FOUND"
+    | "PRODUCT_CANNOT_BE_DELETED"
   >("FORM");
   const [product, setProduct] = useState<Product | null>(null);
   const [responseError, setResponseError] = useState<number>();
@@ -94,9 +95,20 @@ const ProductUpdate = () => {
   const deleteProduct = async () => {
     try {
       setPageState("LOADING");
-      await fetch(`${apiBaseUrl}/api/products/${productId}`, {
+      const response = await fetch(`${apiBaseUrl}/api/products/${productId}`, {
         method: "DELETE",
       });
+
+      if (!response.ok) {
+        const responseJson = await response.json();
+        if (responseJson.errorCode === 3) {
+          setPageState("PRODUCT_CANNOT_BE_DELETED");
+          return;
+        } else {
+          setPageState("ERROR");
+          return;
+        }
+      }
       setPageState("PRODUCT_DELETED");
     } catch (e) {
       setPageState("ERROR");
@@ -247,6 +259,13 @@ const ProductUpdate = () => {
         <div className="flex flex-col justify-center">
           <FaRegCheckCircle className="text-7xl w-full text-green-500 mb-5" />
           <p>Produto excluído!</p>
+        </div>
+      )}
+      {pageState === "PRODUCT_CANNOT_BE_DELETED" && (
+        <div className="flex flex-col text-center justify-center">
+          <VscError className="text-7xl w-full text-red-500 mb-5" />
+          Produto não pode ser excluído, pois está associado a um ou mais
+          pedidos!
         </div>
       )}
       {pageState === "ERROR" && (
