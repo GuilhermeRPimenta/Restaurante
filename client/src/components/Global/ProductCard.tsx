@@ -6,21 +6,25 @@ import { useCart } from "./CartProvider";
 const ProductCard = ({ product }: { product: Product }) => {
   const cart = useCart();
   const { cartContent, modifyCart } = cart;
+
   const productQuantity = cartContent.find(
     (content) => content.id === product.id
   )?.quantity;
+
   const handleAddProductToCart = () => {
     modifyCart({
       ...product,
       quantity: productQuantity ? productQuantity + 1 : 1,
     });
   };
+
   const handleRemoveProductFromCart = () => {
     modifyCart({
       ...product,
       quantity: productQuantity ? productQuantity - 1 : 0,
     });
   };
+
   return (
     <div className="flex flex-col gap-2 items-center p-2 bg-secondary rounded-xl max-w-sm w-full mx-auto hover:shadow-md">
       <h4 className="text-2xl font-bold">{product.name}</h4>

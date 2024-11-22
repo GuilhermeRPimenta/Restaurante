@@ -9,8 +9,8 @@ import ProductUpdate from "./pages/admin/products/ProductUpdate";
 import ProductsHome from "./pages/admin/products/ProductsHome";
 import UserHome from "./pages/user/UserHome";
 import Checkout from "./pages/Checkout";
-import OrdersHome from "./pages/orders/OrdersHome";
-import UpdateOrder from "./pages/orders/UpdateOrder";
+import OrdersHome from "./pages/admin/orders/OrdersHome";
+import UpdateOrder from "./pages/admin/orders/UpdateOrder";
 
 const router = createBrowserRouter([
   {

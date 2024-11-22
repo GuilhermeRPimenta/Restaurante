@@ -18,12 +18,14 @@ const UserRegister = () => {
   >("FORM");
   const [createdUserId, setCreatedUserId] = useState<number>();
   const [responseError, setResponseError] = useState<number>();
+
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.id]: e.target.value,
     }));
   };
+
   const createUser = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -48,6 +50,7 @@ const UserRegister = () => {
       setPageState("ERROR");
     }
   };
+
   const resetPage = () => {
     setCreatedUserId(undefined);
     setPageState("FORM");
@@ -59,6 +62,7 @@ const UserRegister = () => {
       phone: "",
     });
   };
+
   return (
     <div className="flex flex-col h-full text-center w-full justify-center px-4">
       <h2 className="text-4xl font-bold mb-10">Cadastro de usuário</h2>

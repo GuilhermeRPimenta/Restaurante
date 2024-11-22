@@ -26,9 +26,11 @@ const UserHome = () => {
     setResponseError(null);
     setPageState("LOGIN");
   };
+
   const handleLoginFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginFormData({ email: e.target.value });
   };
+
   const handleLogin = async () => {
     try {
       setPageState("LOADING");
@@ -49,6 +51,7 @@ const UserHome = () => {
       setPageState("ERROR");
     }
   };
+
   const handleUserFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (user !== null)
       setUser((prev) => ({
@@ -81,6 +84,7 @@ const UserHome = () => {
       setPageState("ERROR");
     }
   };
+
   return (
     <div className="flex flex-col h-full text-center w-full justify-center">
       <h2 className="text-4xl font-bold mb-10">Usuário</h2>

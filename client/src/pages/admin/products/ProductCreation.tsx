@@ -21,11 +21,13 @@ const ProductCreation = () => {
     description: "",
     imageUrl: "",
   });
+
   const [pageState, setPageState] = useState<
     "FORM" | "LOADING" | "ERROR" | "PRODUCT_CREATED"
   >("FORM");
   const [createdProduct, setCreatedProduct] = useState<Product>();
   const [responseError, setResponseError] = useState<number>();
+
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
@@ -33,6 +35,7 @@ const ProductCreation = () => {
         e.target.id === "price" ? parseFloat(e.target.value) : e.target.value,
     }));
   };
+
   const createProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -57,6 +60,7 @@ const ProductCreation = () => {
       setPageState("ERROR");
     }
   };
+
   const resetPage = () => {
     setCreatedProduct(undefined);
     setPageState("FORM");
@@ -69,6 +73,7 @@ const ProductCreation = () => {
       imageUrl: "",
     });
   };
+
   return (
     <div className="flex flex-col h-full text-center w-full justify-center">
       <h2 className="text-4xl font-bold mb-10">Cadastro de produto</h2>

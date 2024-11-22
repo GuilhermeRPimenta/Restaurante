@@ -10,6 +10,7 @@ import apiBaseUrl from "../../../apiBaseUrl";
 
 const ProductUpdate = () => {
   const { productId } = useParams<{ productId: string }>();
+
   const [formData, setFormData] = useState<{
     name: string;
     category: string;
@@ -34,6 +35,7 @@ const ProductUpdate = () => {
   >("FORM");
   const [product, setProduct] = useState<Product | null>(null);
   const [responseError, setResponseError] = useState<number>();
+
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
@@ -41,6 +43,7 @@ const ProductUpdate = () => {
         e.target.id === "price" ? parseFloat(e.target.value) : e.target.value,
     }));
   };
+
   const fetchProduct = async () => {
     try {
       setPageState("LOADING");
@@ -64,9 +67,11 @@ const ProductUpdate = () => {
       setPageState("ERROR");
     }
   };
+
   useEffect(() => {
     fetchProduct();
   }, []);
+
   const updateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -114,6 +119,7 @@ const ProductUpdate = () => {
       setPageState("ERROR");
     }
   };
+
   return (
     <div className="text-center items-center p-2">
       <h2 className="text-4xl font-bold">Edição de produto</h2>

@@ -31,6 +31,7 @@ const CheckoutModal = ({
       quantity: content.quantity,
     })),
   });
+
   useEffect(() => {
     formData.current = {
       ...formData.current,
@@ -40,9 +41,11 @@ const CheckoutModal = ({
       })),
     };
   }, [cartContent]);
+
   const handleUserIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     formData.current = { ...formData.current, userId: Number(e.target.value) };
   };
+
   const createOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(JSON.stringify(formData.current));
@@ -72,9 +75,11 @@ const CheckoutModal = ({
       setPageState("ERROR");
     }
   };
+
   const resetModal = () => {
     setPageState("FORM");
   };
+
   return (
     <div
       className={`bg-black/70 fixed z-50 top-0 left-0 w-screen h-screen flex items-center justify-center ${

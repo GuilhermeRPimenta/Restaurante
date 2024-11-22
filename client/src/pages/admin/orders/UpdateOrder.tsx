@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
-import apiBaseUrl from "../../apiBaseUrl";
+import apiBaseUrl from "../../../apiBaseUrl";
 import { useEffect, useRef, useState } from "react";
-import { Order } from "../../types/Order";
-import UpdateOrderCard from "../../components/Admin/Orders/UpdateOrderCard";
-import LoadingIcon from "../../components/Global/LoadingIcon";
+import { Order } from "../../../types/Order";
+import UpdateOrderCard from "../../../components/Admin/Orders/UpdateOrderCard";
+import LoadingIcon from "../../../components/Global/LoadingIcon";
 import { FaRegCheckCircle } from "react-icons/fa";
-import ButtonLink from "../../components/Global/ButtonLink";
+import ButtonLink from "../../../components/Global/ButtonLink";
 import { VscError } from "react-icons/vsc";
 
 const UpdateOrder = () => {
@@ -15,6 +15,7 @@ const UpdateOrder = () => {
     "FORM" | "LOADING" | "ERROR" | "ORDER_UPDATED" | "ORDER_NOT_FOUND"
   >("FORM");
   const [order, setOrder] = useState<Order>();
+
   const fetchOrder = async () => {
     try {
       setPageState("LOADING");
@@ -42,6 +43,7 @@ const UpdateOrder = () => {
       setPageState("ERROR");
     }
   };
+
   const updateOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -60,12 +62,14 @@ const UpdateOrder = () => {
       setPageState("ERROR");
     }
   };
+
   useEffect(() => {
     fetchOrder();
   }, []);
   const handleChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
     formStatus.current = { status: e.target.value };
   };
+
   return (
     <div className="flex flex-col h-full text-center w-full justify-center">
       <h2 className="text-4xl font-bold mb-10">Edição de pedido</h2>

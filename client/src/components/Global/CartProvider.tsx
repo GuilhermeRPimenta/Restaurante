@@ -12,16 +12,17 @@ const CartContext = createContext<{
 });
 
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const [cartContent, setCart] = useState<ProductWithQuantity[]>([]);
+  const [cartContent, setCartContent] = useState<ProductWithQuantity[]>([]);
+
   const modifyCart = (product: ProductWithQuantity) => {
     if (!cartContent.find((content) => content.id === product.id)) {
-      if (product.quantity !== 0) setCart((prev) => [...prev, product]);
+      if (product.quantity !== 0) setCartContent((prev) => [...prev, product]);
     } else {
       if (product.quantity === 0) {
-        setCart((prev) => prev.filter((p) => p.id !== product.id));
+        setCartContent((prev) => prev.filter((p) => p.id !== product.id));
         return;
       }
-      setCart((prev) => {
+      setCartContent((prev) => {
         return prev.map((p) =>
           p.id === product.id ? { ...p, quantity: product.quantity } : p
         );
@@ -30,7 +31,7 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const clearCart = () => {
-    setCart([]);
+    setCartContent([]);
   };
 
   return (

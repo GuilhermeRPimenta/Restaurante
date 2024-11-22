@@ -13,6 +13,7 @@ const ProductsHome = () => {
   const [pageState, setPageState] = useState<"LOADING" | "LOADED" | "ERROR">(
     "LOADING"
   );
+
   const fetchProducts = async () => {
     setPageState("LOADING");
     try {
@@ -34,9 +35,11 @@ const ProductsHome = () => {
       setPageState("ERROR");
     }
   };
+
   useEffect(() => {
     fetchProducts();
   }, []);
+
   return (
     <div className="text-center items-center px-2">
       <h2 className="text-4xl font-bold mb-10">Produtos</h2>

@@ -20,9 +20,11 @@ const Checkout = () => {
       return acc;
     }, {} as ProductsByCategory)
   );
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   if (emptyCart) {
     return (
       <div className="flex flex-col h-full text-center w-full justify-center pb-16">

@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import apiBaseUrl from "../../apiBaseUrl";
-import { Order } from "../../types/Order";
-import OrderCard from "../../components/Admin/Orders/OrderCard";
+import apiBaseUrl from "../../../apiBaseUrl";
+import { Order } from "../../../types/Order";
+import OrderCard from "../../../components/Admin/Orders/OrderCard";
 import { VscError } from "react-icons/vsc";
-import Button from "../../components/Global/Button";
-import LoadingIcon from "../../components/Global/LoadingIcon";
+import Button from "../../../components/Global/Button";
+import LoadingIcon from "../../../components/Global/LoadingIcon";
 
 const OrdersHome = () => {
   const [pageState, setPageState] = useState<"LOADING" | "LOADED" | "ERROR">(
     "LOADING"
   );
   const [orders, setOrders] = useState<Order[]>([]);
+
   const fetchOrders = async () => {
     try {
       const response = await fetch(`${apiBaseUrl}/api/orders`, {
@@ -30,9 +31,11 @@ const OrdersHome = () => {
       setPageState("ERROR");
     }
   };
+
   useEffect(() => {
     fetchOrders();
   }, []);
+
   return (
     <div className="flex flex-col h-full text-center w-full justify-center">
       <h2 className="text-4xl font-bold mb-10">Pedidos</h2>

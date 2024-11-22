@@ -6,12 +6,15 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const [mobileNavIsOpen, setMobileNavIsOpen] = useState(false);
+
   const handleMobileNavIsOpenChange = () => {
     setMobileNavIsOpen(!mobileNavIsOpen);
   };
+
   const handleNavLinkClick = () => {
     setMobileNavIsOpen(false);
   };
+
   return (
     <header className="bg-gray-100 sticky top-0 z-[10]">
       <div className="p-1 sm:px-6 justify-between shadow-lg flex items-center  ">
