@@ -74,7 +74,8 @@ const UserHome = () => {
       );
       const responseJson = await response.json();
       if (!response.ok) {
-        if (responseJson.errorCode === 1) setPageState("ERROR");
+        if (responseJson.errorCode === 1 || responseJson.errorCode === 7)
+          setPageState("ERROR");
         else setPageState("FORM");
         setResponseError(responseJson.errorCode);
       } else {
@@ -155,7 +156,7 @@ const UserHome = () => {
               </label>
               <input
                 className={`rounded-xl px-2 ${
-                  (responseError === 3 || responseError === 6) &&
+                  (responseError === 3 || responseError === 8) &&
                   "outline outline-red-500 outline-2"
                 }`}
                 type="text"
@@ -166,7 +167,7 @@ const UserHome = () => {
               {responseError === 3 && (
                 <p className="text-red-500">Insira um e-mail válido!</p>
               )}
-              {responseError === 6 && (
+              {responseError === 8 && (
                 <p className="text-red-500">Este e-mail já está cadastrado!</p>
               )}
             </div>
@@ -234,6 +235,11 @@ const UserHome = () => {
         <div className="flex flex-col text-center justify-center">
           <VscError className="text-7xl w-full text-red-500 mb-5" />
           Algo deu errado!
+          {responseError === 7 && (
+            <div>
+              Um ou mais parâmetros foram enviados com mais de 255 caracteres!
+            </div>
+          )}
           <div className="flex gap-2 justify-center mt-5">
             <Button onClick={resetPage} className="w-fit h-fit">
               Voltar

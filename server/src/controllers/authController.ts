@@ -52,11 +52,18 @@ const registerUser = async (req: Request, res: Response) => {
     res.status(201).json(user);
     return;
   } catch (error) {
+    console.log(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
         res
           .status(409)
           .json({ errorCode: 6, error: "Email already registered" });
+        return;
+      }
+      if (error.code === "P2000") {
+        res
+          .status(400)
+          .json({ errorCode: 7, error: "One or more collumns are too long" });
         return;
       }
     }
@@ -142,8 +149,23 @@ const updateUser = async (req: Request, res: Response) => {
     return;
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      res.status(404).json({ errorCode: 6, error: "User not found" });
-      return;
+      console.log(error);
+      if (error.code === "P2000") {
+        res
+          .status(400)
+          .json({ errorCode: 7, error: "One or more collumns are too long" });
+        return;
+      }
+      if (error.code === "P2002") {
+        res
+          .status(409)
+          .json({ errorCode: 8, error: "Email already registered" });
+        return;
+      }
+      if (error.code === "P2025") {
+        res.status(404).json({ errorCode: 6, error: "User not found" });
+        return;
+      }
     }
     res.status(500).json({ errorCode: 1, error: error.message });
     return;

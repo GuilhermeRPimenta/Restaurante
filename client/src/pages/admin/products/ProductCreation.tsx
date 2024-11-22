@@ -49,7 +49,8 @@ const ProductCreation = () => {
       });
       const responseJson = await response.json();
       if (!response.ok) {
-        if (responseJson.errorCode === 1) setPageState("ERROR");
+        if (responseJson.errorCode === 1 || responseJson.errorCode === 9)
+          setPageState("ERROR");
         else setPageState("FORM");
         setResponseError(responseJson.errorCode);
       } else {
@@ -220,6 +221,11 @@ const ProductCreation = () => {
         <div className="flex flex-col text-center justify-center">
           <VscError className="text-7xl w-full text-red-500 mb-5" />
           Algo deu errado!
+          {responseError === 9 && (
+            <div>
+              Um ou mais parâmetros foram enviados com mais de 255 caracteres!
+            </div>
+          )}
           <div className="flex justify-center">
             <Button className="mt-5" onClick={resetPage}>
               Voltar

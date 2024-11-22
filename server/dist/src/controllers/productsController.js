@@ -62,7 +62,14 @@ const createProduct = async (req, res) => {
         return;
     }
     catch (error) {
-        console.log(error);
+        if (error instanceof client_1.Prisma.PrismaClientKnownRequestError) {
+            if (error.code === "P2000") {
+                res
+                    .status(400)
+                    .json({ errorCode: 9, error: "One or more collumns are too long" });
+                return;
+            }
+        }
         res.status(500).json({ errorCode: 1, error: error.message });
         return;
     }
@@ -178,8 +185,16 @@ const updateProduct = async (req, res) => {
     }
     catch (error) {
         if (error instanceof client_1.Prisma.PrismaClientKnownRequestError) {
-            res.status(404).json({ errorCode: 9, error: "Product not found" });
-            return;
+            if (error.code === "P2000") {
+                res
+                    .status(400)
+                    .json({ errorCode: 10, error: "One or more collumns are too long" });
+                return;
+            }
+            if (error.code === "P2025") {
+                res.status(404).json({ errorCode: 9, error: "Product not found" });
+                return;
+            }
         }
         res.status(500).json({ errorCode: 1, error: error.message });
         return;
