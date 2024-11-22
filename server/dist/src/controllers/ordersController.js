@@ -8,14 +8,35 @@ const client_1 = require("@prisma/client");
 const prismaClient_1 = __importDefault(require("./prismaClient"));
 const createOrder = async (req, res) => {
     try {
-        if (!req.body.userId ||
-            !req.body.products ||
-            !Array.isArray(req.body.products)) {
-            res.status(400).json({ error: "Invalid object sent" });
+        if (!req.body.userId) {
+            res.status(400).json({ errorCode: 2, error: "User not sent" });
             return;
         }
-        if (req.body.products.length === 0) {
-            res.status(400).json({ error: "Empty products array" });
+        if (!req.body.products ||
+            !Array.isArray(req.body.products) ||
+            req.body.products.length === 0) {
+            res
+                .status(400)
+                .json({ errorCode: 3, error: "Invalid products parameter" });
+            return;
+        }
+        const processedProductsIds = [];
+        const repeatedProductsIds = [];
+        req.body.products.forEach((product) => {
+            if (processedProductsIds.includes(product.productId)) {
+                repeatedProductsIds.push(product.productId);
+            }
+            else {
+                processedProductsIds.push(product.productId);
+            }
+        });
+        if (repeatedProductsIds.length > 0) {
+            res.status(400).json({
+                errorCode: 4,
+                error: `Products sent more than once: [${repeatedProductsIds
+                    .map((id) => id)
+                    .join(", ")}]`,
+            });
             return;
         }
         const products = await prismaClient_1.default.product.findMany({
@@ -33,27 +54,10 @@ const createOrder = async (req, res) => {
                 }
             });
             res.status(404).json({
+                errorCode: 5,
                 error: `Products ids [${missingProductsIds
                     .map((id) => id)
                     .join(", ")}] were not found`,
-            });
-            return;
-        }
-        const processedProductsIds = [];
-        const repeatedProductsIds = [];
-        req.body.products.forEach((product) => {
-            if (processedProductsIds.includes(product.productId)) {
-                repeatedProductsIds.push(product.productId);
-            }
-            else {
-                processedProductsIds.push(product.productId);
-            }
-        });
-        if (repeatedProductsIds.length > 0) {
-            res.status(400).json({
-                error: `Products sent more than once: [${repeatedProductsIds
-                    .map((id) => id)
-                    .join(", ")}]`,
             });
             return;
         }
@@ -81,11 +85,11 @@ const createOrder = async (req, res) => {
     catch (error) {
         if (error instanceof client_1.Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2003") {
-                res.status(422).json({ error: error.message });
+                res.status(422).json({ errorCode: 6, error: "User not found" });
                 return;
             }
         }
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ errorCode: 1, error: error.message });
         return;
     }
 };

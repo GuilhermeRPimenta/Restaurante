@@ -1,13 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonLink from "../components/Global/ButtonLink";
 import { useCart } from "../components/Global/CartProvider";
 import ProductCard from "../components/Global/ProductCard";
 import { ProductsByCategory } from "../types/Product";
 import Button from "../components/Global/Button";
+import CheckoutModal from "../components/Checkout/CheckoutModal";
 
 const Checkout = () => {
   const cart = useCart();
-  const { cartContent, clearCart } = cart;
+  const { cartContent } = cart;
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [emptyCart] = useState(cartContent.length === 0);
   const [productsByCategory] = useState<ProductsByCategory>(
     cartContent.reduce((acc, product) => {
       if (!acc[product.category]) {
@@ -20,6 +23,18 @@ const Checkout = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  if (emptyCart) {
+    return (
+      <div className="flex flex-col h-full text-center w-full justify-center pb-16">
+        <h2 className="text-4xl font-bold mb-10">Carrinho vazio!</h2>
+        <div className="flex flex-col items-center">
+          <ButtonLink variant="desctructive" className="w-full max-w-96" to="/">
+            Voltar ao cardápio
+          </ButtonLink>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col h-full text-center w-full justify-center pb-16">
       <h2 className="text-4xl font-bold mb-10">Finalizar pedido</h2>
@@ -38,12 +53,22 @@ const Checkout = () => {
           );
         })}
       </div>
-      <div className="flex flex-col gap-3 mt-6 items-center">
-        <Button className="w-full max-w-96">Finalizar</Button>
-        <ButtonLink variant="desctructive" className="w-full max-w-96" to="/">
+      <div className="flex gap-3 mt-6 items-center">
+        <ButtonLink
+          variant="desctructive"
+          className="ml-auto w-full max-w-96"
+          to="/"
+        >
           Voltar ao cardápio
         </ButtonLink>
+        <Button
+          className="mr-auto w-full max-w-96"
+          onClick={() => setModalIsOpen(true)}
+        >
+          Finalizar
+        </Button>
       </div>
+      <CheckoutModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />
     </div>
   );
 };
