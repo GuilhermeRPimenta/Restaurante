@@ -79,7 +79,7 @@ const createOrder = async (req, res) => {
                 },
             },
         });
-        res.status(201).send(order);
+        res.status(201).json({ id: order.id });
         return;
     }
     catch (error) {
