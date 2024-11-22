@@ -53,7 +53,13 @@ const Checkout = () => {
           );
         })}
       </div>
-      <div className="flex gap-3 mt-6 items-center">
+      <div className="flex flex-col gap-3 mt-6 items-center">
+        <Button
+          className="mr-auto w-full max-w-96"
+          onClick={() => setModalIsOpen(true)}
+        >
+          Finalizar
+        </Button>
         <ButtonLink
           variant="desctructive"
           className="ml-auto w-full max-w-96"
@@ -61,12 +67,6 @@ const Checkout = () => {
         >
           Voltar ao cardápio
         </ButtonLink>
-        <Button
-          className="mr-auto w-full max-w-96"
-          onClick={() => setModalIsOpen(true)}
-        >
-          Finalizar
-        </Button>
       </div>
       <CheckoutModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />
     </div>
