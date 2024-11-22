@@ -22,6 +22,10 @@ const UpdateOrder = () => {
         method: "GET",
       });
       const orderData = await response.json();
+      const orderDataWithDate: Order = {
+        ...orderData,
+        createdAt: new Date(orderData.createdAt),
+      };
       if (!response.ok) {
         if (response.status === 404 && orderData.errorCode === 3) {
           setPageState("ORDER_NOT_FOUND");
@@ -31,8 +35,8 @@ const UpdateOrder = () => {
         return;
       }
 
-      setOrder(orderData);
-      formStatus.current = { status: orderData.status };
+      setOrder(orderDataWithDate);
+      formStatus.current = { status: orderDataWithDate.status };
       setPageState("FORM");
     } catch (error) {
       setPageState("ERROR");
