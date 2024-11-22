@@ -34,7 +34,7 @@ const ProductUpdate = () => {
     | "PRODUCT_CANNOT_BE_DELETED"
   >("FORM");
   const [product, setProduct] = useState<Product | null>(null);
-  const [responseError, setResponseError] = useState<number>();
+  const [responseError, setResponseError] = useState<number | null>(null);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -122,7 +122,7 @@ const ProductUpdate = () => {
   };
 
   return (
-    <div className="text-center items-center p-2">
+    <div className="flex flex-col h-full text-center w-full justify-center">
       <h2 className="text-4xl font-bold">Edição de produto</h2>
       <h3 className="text-3xl font-bold mt-2 mb-5">{product?.name}</h3>
       {pageState === "FORM" && (

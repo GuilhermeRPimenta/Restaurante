@@ -48,7 +48,6 @@ const CheckoutModal = ({
 
   const createOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(JSON.stringify(formData.current));
     try {
       setPageState("LOADING");
       const response = await fetch(`${apiBaseUrl}/api/orders`, {
@@ -59,7 +58,6 @@ const CheckoutModal = ({
         body: JSON.stringify(formData.current),
       });
       const responseJson = await response.json();
-      console.log(response);
       if (!response.ok) {
         if (responseJson.errorCode === 6) {
           setUserNotFound(true);
