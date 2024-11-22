@@ -84,7 +84,11 @@ const UpdateOrder = () => {
         <div className="flex flex-col justify-center">
           <FaRegCheckCircle className="text-7xl w-full text-green-500 mb-5" />
           <p>Pedido atualizado!</p>
-          <ButtonLink to="/admin/orders">Voltar à pagina de pedidos</ButtonLink>
+          <div className="flex justify-center">
+            <ButtonLink className="w-fit" to="/admin/orders">
+              Voltar à pagina de pedidos
+            </ButtonLink>
+          </div>
         </div>
       )}
       {pageState === "ORDER_NOT_FOUND" && (
