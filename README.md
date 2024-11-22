@@ -26,8 +26,8 @@ SERVER_PORT=8000
 DATABASE_URL="postgresql://user:password@localhost:5432/database"
 ```
 
-SERVER_PORT será a porta em que o backend será executado no localhost. <br>
-DATABASE_URL contém a localização do banco de dados PostgreSQL e se usuário. No exemplo acima:
+**SERVER_PORT** será a porta em que o backend será executado no localhost. <br>
+**DATABASE_URL** contém a localização do banco de dados PostgreSQL e seu usuário. No exemplo acima:
 
 - user: nome de usuário
 - password: senha do usuário
@@ -51,8 +51,8 @@ VITE_SERVER_PORT=5000
 VITE_API_BASE_URL=http://localhost:8000
 ```
 
-VITE_SERVER_PORT será a porta em que o frontend será executado no localhost. A porta padrão é 5173<br>
-VITE_API_BASE_URL é o endereço do backend. Lembre-se de colocar a mesma porta definida em SERVER_PORT no arqquivo .env do backend.
+**VITE_SERVER_PORT** será a porta em que o frontend será executado no localhost. A porta padrão é 5173<br>
+**VITE_API_BASE_URL** é o endereço do backend. Lembre-se de colocar a mesma porta definida em SERVER_PORT no arqquivo .env do backend.
 
 - Instale as dependências com o comando `npm install`
 - Execute o frontend com o comando `npm run dev`
@@ -61,7 +61,7 @@ VITE_API_BASE_URL é o endereço do backend. Lembre-se de colocar a mesma porta 
 
 ### Backend
 
-Os endpoints retornam erros no formato `{errorCode: number, error: string}`. Em todos os endpoints, `errorCode = 1` representa um erro genérico, enquanto outros valores variam de significao para cada endpoint. Recomenda-se ler a mensagem presente em `error`.
+Os endpoints retornam erros no formato `{errorCode: number, error: string}`. Em todos os endpoints, `errorCode = 1` representa um erro genérico, enquanto outros valores variam de significado para cada endpoint. Recomenda-se ler a mensagem presente em `error` para entender o que causou o erro.
 
 #### Endpoints
 
@@ -78,7 +78,7 @@ Os endpoints retornam erros no formato `{errorCode: number, error: string}`. Em 
 }
 ```
 
-- GET `/api/auth/login:email` <br>
+- GET `/api/auth/login/:email` <br>
   Este endpoint é responsável por retornar um usuário a partir de seu e-mail.<br>
   Exemplo de resposta:
 
@@ -122,6 +122,7 @@ Os endpoints retornam erros no formato `{errorCode: number, error: string}`. Em 
 - GET `/api/products/` <br>
   Este endpoint é responsável por obter dados de vários produtos. As seguintes queries são suportadas:
   `category` (categoria); `orderBy` (seleciona o parâmetro utilizado para a ordenação. Possíveis valores: `id`; `name`;`category`; `price`; `description`; `imageUrl`); `orderDirection` (`asc` para ordernação crescente, `desc` para ordenação decrescente); `maxPrice` (preço máximo); `minPrice` (preço mínimo).<br>
+  Por padrão, a ordenação se dá por categoria de maneira crescente, sem preço mínimo ou máximo e sem a filtragem por categoria.
   Exemplo de resposta para `localhost:8000/api/products?category=Pizzas%20Doces`:
 
 ```
