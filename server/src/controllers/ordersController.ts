@@ -94,6 +94,46 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    const orders = await prisma.order.findMany({
+      include: {
+        orderItem: {
+          select: {
+            quantity: true,
+            product: {
+              select: {
+                name: true,
+                price: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    const formattedOrders = orders.map((order) => {
+      const formattedOrder = {
+        id: order.id,
+        totalPrice: order.totalPrice,
+        status: order.status,
+        createdAt: order.createdAt,
+        products: order.orderItem.map((o) => {
+          return {
+            name: o.product.name,
+            quantity: o.quantity,
+            price: o.product.price,
+          };
+        }),
+      };
+      return formattedOrder;
+    });
+    res.status(200).json(formattedOrders);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    return;
+  }
+};
+
 const getOrderById = async (req: Request, res: Response) => {
   try {
     const order = await prisma.order.findUnique({
@@ -164,4 +204,4 @@ const updateOrderStatus = async (req: Request, res: Response) => {
     return;
   }
 };
-export { createOrder, getOrderById, updateOrderStatus };
+export { createOrder, getOrderById, getAllOrders, updateOrderStatus };

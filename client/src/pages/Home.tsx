@@ -15,10 +15,10 @@ const Home = () => {
   const fetchProducts = async () => {
     setPageState("LOADING");
     try {
-      const fetchedProducts = await fetch(`${apiBaseUrl}/api/products`, {
+      const response = await fetch(`${apiBaseUrl}/api/products`, {
         method: "GET",
       });
-      const productsData: Product[] = await fetchedProducts.json();
+      const productsData: Product[] = await response.json();
       const productsByCategory = productsData.reduce((acc, product) => {
         if (!acc[product.category]) {
           acc[product.category] = [];
@@ -28,7 +28,7 @@ const Home = () => {
       }, {} as ProductsByCategory);
       setProductsByCategory(productsByCategory);
       setPageState("LOADED");
-    } catch (e) {
+    } catch (error) {
       setPageState("ERROR");
     }
   };

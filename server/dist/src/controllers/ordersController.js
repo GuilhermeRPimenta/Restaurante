@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateOrderStatus = exports.getOrderById = exports.createOrder = void 0;
+exports.updateOrderStatus = exports.getAllOrders = exports.getOrderById = exports.createOrder = void 0;
 const client_1 = require("@prisma/client");
 const prismaClient_1 = __importDefault(require("./prismaClient"));
 const createOrder = async (req, res) => {
@@ -94,6 +94,47 @@ const createOrder = async (req, res) => {
     }
 };
 exports.createOrder = createOrder;
+const getAllOrders = async (req, res) => {
+    try {
+        const orders = await prismaClient_1.default.order.findMany({
+            include: {
+                orderItem: {
+                    select: {
+                        quantity: true,
+                        product: {
+                            select: {
+                                name: true,
+                                price: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+        const formattedOrders = orders.map((order) => {
+            const formattedOrder = {
+                id: order.id,
+                totalPrice: order.totalPrice,
+                status: order.status,
+                createdAt: order.createdAt,
+                products: order.orderItem.map((o) => {
+                    return {
+                        name: o.product.name,
+                        quantity: o.quantity,
+                        price: o.product.price,
+                    };
+                }),
+            };
+            return formattedOrder;
+        });
+        res.status(200).json(formattedOrders);
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+        return;
+    }
+};
+exports.getAllOrders = getAllOrders;
 const getOrderById = async (req, res) => {
     try {
         const order = await prismaClient_1.default.order.findUnique({
