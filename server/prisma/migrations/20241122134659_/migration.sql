@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "OrderStatus" AS ENUM ('pendente', 'em_preparo', 'entregue', 'cancelado');
+
 -- CreateTable
 CREATE TABLE "user" (
     "id" SERIAL NOT NULL,
@@ -26,7 +29,7 @@ CREATE TABLE "order" (
     "id" SERIAL NOT NULL,
     "user_id" INTEGER NOT NULL,
     "total_price" DECIMAL(10,2) NOT NULL,
-    "status" VARCHAR(255) NOT NULL,
+    "status" "OrderStatus" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "order_pkey" PRIMARY KEY ("id")
@@ -41,6 +44,9 @@ CREATE TABLE "order_item" (
 
     CONSTRAINT "order_item_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- AddForeignKey
 ALTER TABLE "order" ADD CONSTRAINT "order_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
