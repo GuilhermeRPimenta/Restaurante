@@ -52,7 +52,6 @@ const registerUser = async (req: Request, res: Response) => {
     res.status(201).json(user);
     return;
   } catch (error) {
-    console.log(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
         res
@@ -149,7 +148,6 @@ const updateUser = async (req: Request, res: Response) => {
     return;
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      console.log(error);
       if (error.code === "P2000") {
         res
           .status(400)
